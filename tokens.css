@@ -5,6 +5,11 @@
  */
 
 :root {
+  /* Schema colore nativo (scrollbar, spinner, form control) + accent dei
+     controlli form allineato al brand. Il valore segue light/dark sotto. */
+  color-scheme: light;
+  accent-color: var(--pt-accent);
+
   /* ---------- Colori — palette editoriale italiana ---------- */
 
   /* Backgrounds */
@@ -23,10 +28,15 @@
   /* Foreground */
   --pt-fg:           #1A1714;   /* warm black con un tocco caldo */
   --pt-fg-muted:     #5A524A;   /* secondario warm */
-  --pt-fg-subtle:    #8C8478;   /* terziario */
+  --pt-fg-subtle:    #6A645B;   /* terziario — AA su bg/elev/tint (5.2/5.6/4.6) */
 
   /* Accent — palette italiana editoriale */
-  --pt-accent:         #B5532C;   /* terracotta italiana (primary) */
+  /*
+   * Terracotta UI (link, testo, bottoni): #A44B28 — variante AA della
+   * terracotta brand #B5532C (5.1:1 su bg contro 4.4:1). #B5532C resta il
+   * terracotta delle ILLUSTRAZIONI (palette fissa, hardcoded negli SVG).
+   */
+  --pt-accent:         #A44B28;   /* terracotta italiana (primary, AA) */
   --pt-accent-hover:   #9A4222;
 
   /*
@@ -47,10 +57,27 @@
      il bianco della bandiera. Fa da luce centrale tra verde e rosso. */
   --pt-flag-white:     #EFE3AC;
 
+  /*
+   * Superfici "tint": accent a bassa opacita per background di hover,
+   * badge e stati attivi. color-mix cosi seguono l'accent light/dark
+   * senza duplicare valori. Promuovono a token i mix ripetuti nei
+   * componenti (pill, filtri, callout).
+   */
+  --pt-tint-accent:    color-mix(in srgb, var(--pt-accent)   14%, transparent);
+  --pt-tint-accent-2:  color-mix(in srgb, var(--pt-accent-2) 14%, transparent);
+  --pt-tint-accent-3:  color-mix(in srgb, var(--pt-accent-3) 20%, transparent);
+
+  /*
+   * Focus ring unico, token-driven: un solo anello coerente su tutti gli
+   * elementi interattivi (:focus-visible in reset.css). Contrasto >= 3:1.
+   */
+  --pt-ring:           var(--pt-accent);
+  --pt-ring-offset:    2px;
+
   /* Sistema (errori, success, warning) */
   --pt-success:      #2D6A4F;
   --pt-warning:      #C9A961;
-  --pt-error:        #B5532C;
+  --pt-error:        var(--pt-accent);   /* terracotta = errore; segue light/dark */
 
   /* Borders e dividers */
   --pt-border:        #E2DCC9;
@@ -84,6 +111,17 @@
   --pt-text-2xl:  2.441rem;    /* 39.06 */
   --pt-text-3xl:  3.052rem;    /* 48.83 */
   --pt-text-4xl:  3.815rem;    /* 61.04 */
+
+  /*
+   * Display fluidi (clamp): le headline scalano con continuita' tra
+   * mobile e desktop, senza salto a un unico breakpoint. Il max eguaglia
+   * i valori desktop attuali (nessuna regressione a schermo largo); il
+   * min e' piu misurato su mobile (h1 61->44px: piu respiro su 375px).
+   */
+  --pt-display-xl: clamp(2.75rem, 2rem + 3.4vw, 3.815rem);    /* h1  44 -> 61 */
+  --pt-display-lg: clamp(2.25rem, 1.75rem + 2.4vw, 3.052rem); /* h2  36 -> 48.8 */
+  --pt-display-md: clamp(1.85rem, 1.55rem + 1.5vw, 2.441rem); /* h3  29.6 -> 39 */
+  --pt-display-sm: clamp(1.4rem, 1.2rem + 0.9vw, 1.953rem);   /* h4/sub 22 -> 31 */
 
   /* Body size fluido (clamp tra 16 e 18px) */
   --pt-text-body-fluid: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
@@ -120,6 +158,14 @@
   --pt-space-10:  128px;
   --pt-space-11:  160px;
 
+  /*
+   * Spaziatura di sezione fluida: il ritmo verticale tra le grandi
+   * sezioni "respira" su desktop e si compatta su mobile. Da usare per
+   * il padding-block delle section full-width (home, landing area).
+   */
+  --pt-space-section:    clamp(3rem, 2rem + 5vw, 6rem);     /* 48 -> 96 */
+  --pt-space-section-lg: clamp(4rem, 2.5rem + 7.5vw, 8rem); /* 64 -> 128 */
+
   /* ---------- Layout ---------- */
 
   --pt-container:   1280px;     /* container massimo */
@@ -136,6 +182,7 @@
 
   /* ---------- Shadow soft (warm-tinted, non grigie) ---------- */
 
+  --pt-shadow-xs: 0 1px 1px rgba(26, 26, 26, 0.03);
   --pt-shadow-sm: 0 1px 2px rgba(26, 26, 26, 0.04),
                   0 1px 1px rgba(26, 26, 26, 0.03);
   --pt-shadow-md: 0 4px 8px rgba(26, 26, 26, 0.05),
@@ -167,6 +214,7 @@
  * stampata su carta nera satinata.
  */
 [data-theme="dark"] {
+  color-scheme: dark;
   --pt-bg:            #0E0C0A;   /* nero quasi puro con retrogusto warm */
   --pt-bg-elev:       #16130F;   /* card */
   --pt-bg-deep:       #050403;   /* footer, sezioni "deep" */
@@ -203,6 +251,7 @@
   --pt-aurora-alpha:  0.18;       /* blob piu visibili su nero */
 
   /* Shadow piu profonde su sfondi scuri */
+  --pt-shadow-xs: 0 1px 1px rgba(0, 0, 0, 0.4);
   --pt-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
   --pt-shadow-md: 0 4px 8px rgba(0, 0, 0, 0.5);
   --pt-shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.6);
@@ -211,6 +260,7 @@
 /* Rispetto della preferenza di sistema se l'utente non ha scelto esplicitamente */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
+    color-scheme: dark;
     --pt-bg:            #0E0C0A;
     --pt-bg-elev:       #16130F;
     --pt-bg-deep:       #050403;

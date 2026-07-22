@@ -29,6 +29,20 @@ AI-style, neon, glassmorphism.
 Fraunces (display) · Inter (body) · JetBrains Mono (codice). Tutti Google
 Fonts, free. Dettagli e URL in `fonts.md`.
 
+## Token 2026 (modernizzazione)
+
+Oltre a colori/tipo/spacing storici, `tokens.css` include ora:
+
+- **Display fluidi** `--pt-display-{sm,md,lg,xl}` (`clamp`): headline che scalano
+  senza salti di breakpoint.
+- **Superfici tint** `--pt-tint-accent{,-2,-3}`: accent a bassa opacità per
+  hover/badge/stati attivi (via `color-mix`, seguono light/dark).
+- **Focus ring** `--pt-ring` / `--pt-ring-offset`: anello unico token-driven.
+- **Spaziatura di sezione fluida** `--pt-space-section{,-lg}`, `--pt-shadow-xs`.
+- **`color-scheme` / `accent-color`** nativi per light/dark.
+- Accent UI accessibile **`#A44B28`** (AA); `#B5532C` resta il terracotta delle
+  illustrazioni (palette fissa).
+
 ## Come consumarlo
 
 Il token è **CSS custom properties**, quindi qualsiasi consumatore web fa
