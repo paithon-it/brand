@@ -1,8 +1,17 @@
 # paithon — brand
 
 Fonte unica della firma visiva di paithon (sito, libro, social, tutto ciò che
-verrà). Si cambia **qui**, i consumatori la riprendono. Repo privato, nessuna
-licenza = *all rights reserved*.
+verrà). Si cambia **qui**, i consumatori la riprendono.
+
+Repo **pubblico** — deve esserlo, perché il libro lo consuma come submodule e
+chi clona `paithonbook` deve poterlo risolvere. Pubblico non vuol dire libero:
+il materiale paithon è *all rights reserved* (vedi [`LICENSE`](LICENSE)). Fanno
+eccezione i font in `motion/fonts/`, che sono di terze parti sotto SIL Open
+Font License 1.1 ([`OFL.txt`](motion/fonts/OFL.txt),
+[`NOTICE.md`](motion/fonts/NOTICE.md)).
+
+Prima di aggiungere un file qui: **finisce online**. Niente chiavi, niente
+bozze, niente materiale di cui non abbiamo i diritti.
 
 ## Contenuto
 

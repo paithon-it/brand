@@ -1,6 +1,12 @@
 # Font
 
-Tutte Google Fonts, free, caricate via CDN (nessun file self-hosted).
+Tutte e tre di origine Google Fonts, free, sotto SIL Open Font License 1.1.
+
+**Self-hostate, non da CDN.** Il Garante privacy considera il caricamento
+remoto da Google Fonts un trasferimento di IP verso gli USA: il sito serve i
+WOFF2 dal proprio dominio. In `motion/fonts/` stanno invece i TTF, perché Pango
+(il motore di testo di Manim) non legge i WOFF2 — attribuzioni e licenza in
+[`motion/fonts/NOTICE.md`](motion/fonts/NOTICE.md).
 
 | Ruolo | Famiglia | Pesi | Note |
 |---|---|---|---|

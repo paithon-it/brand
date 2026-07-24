@@ -1,0 +1,30 @@
+Copyright (c) 2026 paithon.it — tutti i diritti riservati.
+
+Questo repository è pubblico per consentire ai progetti paithon (il sito
+paithon.it e il libro) di consumarlo come submodule, e per trasparenza. Essere
+leggibile non lo rende riutilizzabile: non viene concessa alcuna licenza d'uso,
+copia, modifica o ridistribuzione del materiale paithon che contiene.
+
+In particolare NON sono concessi in licenza:
+
+  - il marchio, il nome "paithon" e il segno grafico (`logos/`), che
+    identificano l'origine dei contenuti;
+  - i design token, i fogli di stile e il tema delle animazioni
+    (`tokens.css`, `aurora.css`, `motion/`), in quanto firma visiva.
+
+Sono permessi, senza bisogno di autorizzazione, gli usi che la legge già
+consente: leggere il codice, citarlo, studiarlo, e ogni altra utilizzazione
+libera prevista dalla normativa applicabile.
+
+Per qualsiasi altro uso: chiedere. I contatti sono su https://paithon.it
+
+
+ECCEZIONE — font di terze parti
+-------------------------------
+
+`motion/fonts/` contiene font che NON sono opera di paithon e a cui questa
+nota NON si applica. Sono di Fraunces, Inter e JetBrains Mono Project Authors,
+ridistribuiti sotto SIL Open Font License 1.1: il testo della licenza è in
+`motion/fonts/OFL.txt` e le attribuzioni in `motion/fonts/NOTICE.md`.
+
+I termini della OFL prevalgono su questa nota per quei file.
