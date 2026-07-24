@@ -39,7 +39,7 @@ dall'occhio: non si mette in pausa, non ci si torna sopra a un fotogramma
 preciso. E il libro **esiste anche su carta**, dove una figura che ha senso
 solo in movimento è un buco.
 
-Da qui due regole:
+Da qui tre regole:
 
 1. **Animare solo quando il tempo è il contenuto.** Discesa del gradiente,
    denoising della diffusione, convoluzione che scorre, backprop che risale,
@@ -49,8 +49,13 @@ Da qui due regole:
 2. **L'ultimo fotogramma deve reggere da solo.** Estrailo: se non si capisce
    niente, la clip non va nel libro. Taglia via quasi tutti i casi dubbi, e lo
    fa in due secondi.
+3. **Una clip per sezione.** Due animazioni nella stessa schermata si rubano
+   l'attenzione: se una sezione ne merita due, quasi sempre sono due sezioni.
 
-Nel libro sono poche — cinque, dieci in tutto — non una per capitolo.
+Il tetto nel libro è **5–10 per capitolo**. È un tetto, non una quota da
+riempire: a decidere è la regola 1, e un capitolo con due candidati veri ne ha
+due. Sopra la cinquantina di clip conviene passare al WebP: misurato sulle prime
+otto del libro, una clip di 7–9 s a 800 px pesa ~570 KB in GIF e ~300 in WebP.
 
 ### La striscia: la versione ferma
 
