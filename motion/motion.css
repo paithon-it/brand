@@ -1,0 +1,113 @@
+/*
+ * motion.css — il ritmo di paithon, lato web.
+ *
+ * Stessa scala di durate e stessa curva delle animazioni esplicative Manim
+ * (`paithon_anim.py`, accanto a questo file): un fade-in di un blocco sul
+ * sito e un fade-in dentro una clip devono "sentirsi" uguali.
+ *
+ * `tokens.css` resta la fonte per colori, tipografia e transizioni UI
+ * (--pt-transition-*): quelle sono micro-interazioni (hover, focus) e non
+ * cambiano. Qui c'e' il livello sopra: il movimento narrativo.
+ */
+
+:root {
+  /* ---------- Durate ---------- */
+  /*
+   * Le UI si misurano in centinaia di ms, una clip esplicativa in secondi:
+   * sotto i 400ms un passaggio narrativo non si legge. Questi valori sono gli
+   * stessi di RAPIDO/NORMALE/LENTO/PAUSA/PAUSA_FINALE in paithon_anim.py.
+   */
+  --pt-motion-rapido:   400ms;   /* comparsa di un dettaglio */
+  --pt-motion-normale:  700ms;   /* entrata standard di un elemento */
+  --pt-motion-lento:   1100ms;   /* trasformazioni, morphing */
+  --pt-motion-pausa:    900ms;   /* stacco fra due passaggi */
+  --pt-motion-chiusura:1600ms;   /* respiro finale prima del loop */
+
+  /* ---------- Curva ---------- */
+  /*
+   * L'entrata usa `--pt-ease-out` di tokens.css — nessuna curva nuova: la
+   * stessa di card e view-transition. Manim la replica esattamente con
+   * `EASE_OUT` (una cubic-bezier risolta come nel browser), quindi un blocco
+   * che entra in pagina e un elemento che entra in una clip si muovono uguale.
+   *
+   * Questa e' invece la curva simmetrica dei passaggi interni di una clip
+   * (`smooth` di Manim, sigmoide con inflection 10): equivalente CSS ricavato
+   * per fitting, errore massimo 0.05. Serve solo se si replica sul web
+   * un'animazione narrativa; per le UI resta --pt-ease-out.
+   */
+  --pt-motion-ease: cubic-bezier(0.5, 0, 0.5, 1);
+
+  /* ---------- Spostamento ---------- */
+  /*
+   * Il micro-shift dei fade-in. In Manim e' 0.25 unita' su un frame alto 8:
+   * il 3% dell'altezza. Su schermo si traduce in ~10px.
+   */
+  --pt-motion-shift: 10px;
+  /* Ritardo fra elementi di una stessa sequenza (lag_ratio 0.12 su 700ms). */
+  --pt-motion-lag: 85ms;
+}
+
+/* Chi chiede meno movimento lo ottiene: stessa regola di tokens.css. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --pt-motion-rapido: 0ms;
+    --pt-motion-normale: 0ms;
+    --pt-motion-lento: 0ms;
+    --pt-motion-shift: 0px;
+    --pt-motion-lag: 0ms;
+  }
+}
+
+/*
+ * Il gesto base, identico a `entra()` in paithon_anim.py: opacita' da 0 a 1
+ * con un piccolo scorrimento dal basso. Applicare la classe quando
+ * l'elemento entra in viewport.
+ */
+@keyframes pt-entra {
+  from { opacity: 0; transform: translateY(var(--pt-motion-shift)); }
+  to   { opacity: 1; transform: none; }
+}
+
+.pt-entra {
+  animation: pt-entra var(--pt-motion-normale) var(--pt-ease-out) both;
+}
+
+/* Sequenza: ogni figlio parte con il ritardo del precedente. */
+.pt-entra-sequenza > * {
+  animation: pt-entra var(--pt-motion-normale) var(--pt-ease-out) both;
+}
+.pt-entra-sequenza > *:nth-child(1) { animation-delay: calc(var(--pt-motion-lag) * 0); }
+.pt-entra-sequenza > *:nth-child(2) { animation-delay: calc(var(--pt-motion-lag) * 1); }
+.pt-entra-sequenza > *:nth-child(3) { animation-delay: calc(var(--pt-motion-lag) * 2); }
+.pt-entra-sequenza > *:nth-child(4) { animation-delay: calc(var(--pt-motion-lag) * 3); }
+.pt-entra-sequenza > *:nth-child(5) { animation-delay: calc(var(--pt-motion-lag) * 4); }
+.pt-entra-sequenza > *:nth-child(6) { animation-delay: calc(var(--pt-motion-lag) * 5); }
+
+/*
+ * Underline che si forma da sinistra — la controparte web di `sottolinea()`.
+ * Il colore lo decide il contesto: di default l'accent primario.
+ */
+.pt-sottolinea {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 2px;
+  transition: background-size var(--pt-motion-normale) var(--pt-motion-ease);
+}
+.pt-sottolinea:hover,
+.pt-sottolinea:focus-visible,
+.pt-sottolinea.is-attiva {
+  background-size: 100% 2px;
+}
+
+/*
+ * Contenitore di una clip esplicativa (GIF/MP4) dentro un articolo: stessa
+ * aria e stesso bordo delle figure statiche.
+ */
+.pt-clip {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--pt-radius-md, 8px);
+  background: var(--pt-bg-elev, #FBF9F2);
+}

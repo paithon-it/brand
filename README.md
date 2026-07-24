@@ -11,6 +11,7 @@ licenza = *all rights reserved*.
 | `tokens.css` | **La fonte.** Tutti i design token come CSS custom properties (`--pt-*`): colori (light/dark), tipografia, spacing, layout, radius, shadow, transizioni. Nessun valore va duplicato altrove — si legge da qui. |
 | `logos/paithon-mark.svg` | Il segno: triangolo di Penrose (tribar GEB), palette-locked, identico in light/dark. Stesso mark di header sito, favicon e copertina libro. |
 | `fonts.md` | Le 3 famiglie + pesi + URL Google Fonts esatto. |
+| `motion/` | **Lo stile delle animazioni.** Tema Manim per le clip esplicative (`paithon_anim.py`), gli stessi tempi e la stessa curva per il web (`motion.css`), i TTF per il rendering. Dettagli in `motion/README.md`. |
 | `social/` | Template per Instagram/YouTube/etc. (export PNG/SVG). |
 
 ## Palette (subset memorabile — l'elenco completo è in `tokens.css`)
