@@ -25,6 +25,52 @@ passaggi, sono due clip.
   per il codice. Le formule sono LaTeX vero.
 - Terracotta è l'unico accento caldo dominante: teal e ocra sono di supporto.
 
+## Quando animare (e quando no)
+
+Il loop cambia segno a seconda di dove sta.
+
+**Nell'articolo è un pregio.** Si scorre, la clip cattura, spesso è l'unica
+figura del pezzo, si condivide. Lì l'animazione fa un lavoro che una figura
+ferma non fa.
+
+**Nel libro è spesso un difetto.** Il lettore sta su quel paragrafo due minuti,
+magari rileggendo, e intanto la figura ripete all'infinito a un metro
+dall'occhio: non si mette in pausa, non ci si torna sopra a un fotogramma
+preciso. E il libro **esiste anche su carta**, dove una figura che ha senso
+solo in movimento è un buco.
+
+Da qui due regole:
+
+1. **Animare solo quando il tempo è il contenuto.** Discesa del gradiente,
+   denoising della diffusione, convoluzione che scorre, backprop che risale,
+   campionamento autoregressivo: lì il "prima → dopo" *è* il concetto, e una
+   figura ferma deve barare con tre pannelli affiancati. Architetture,
+   tassonomie, confronti e pipeline restano SVG.
+2. **L'ultimo fotogramma deve reggere da solo.** Estrailo: se non si capisce
+   niente, la clip non va nel libro. Taglia via quasi tutti i casi dubbi, e lo
+   fa in due secondi.
+
+Nel libro sono poche — cinque, dieci in tutto — non una per capitolo.
+
+### La striscia: la versione ferma
+
+Quando la clip serve ma il movimento non arriva (carta, PDF, feed senza
+autoplay), si campiona su 2–3 fotogrammi e li si affianca in serie. Diventa una
+figura statica che racconta lo stesso passaggio. Entrambi i driver la producono
+con `--striscia`: campionano dal 30% della durata in poi — l'incipit è la
+dissolvenza del titolo e non dice niente — e includono sempre l'ultimo
+fotogramma.
+
+Due riquadri bastano quando la clip è un "prima/dopo"; tre quando c'è un
+passaggio intermedio che serve davvero.
+
+### Lo stesso concetto in due posti
+
+Non duplicare il sorgente della scena. Se un articolo riprende un capitolo, il
+`.py` resta dove vive il contenuto originale e per l'altra superficie si
+riusa il file renderizzato. Due copie della stessa scena divergono in un mese —
+esattamente come stavano divergendo i due temi prima di questa cartella.
+
 ## Composizione
 
 ```
