@@ -122,8 +122,19 @@
    * Pygments resta intera. Il degrado e' monocromatico, non illeggibile.
    */
   html[data-theme="dark"] pre,
+  html[data-theme="dark"] code {
+    color: #000000 !important;
+    background: #FFFFFF !important;
+  }
+
+  /*
+   * Il fondo va tolto ai DISCENDENTI e ridato al contenitore, non azzerato su
+   * tutti e due: `html[data-theme="dark"] pre` e' piu' specifico del `pre`
+   * qui sopra, quindi un `background: transparent` su di esso batterebbe il
+   * bianco e sotto riemergerebbe la superficie scura della pagina. Provato:
+   * il codice diventava nero su grigio scuro.
+   */
   html[data-theme="dark"] pre *,
-  html[data-theme="dark"] code,
   html[data-theme="dark"] code * {
     color: #000000 !important;
     background: transparent !important;
