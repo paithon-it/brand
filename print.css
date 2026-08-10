@@ -1,0 +1,126 @@
+/*
+ * print.css — il foglio, per un sistema che nasce scuro.
+ *
+ * Chi stampa stampa dal tema che ha, e il tema normale qui e' quello scuro:
+ * senza queste regole esce carta nera, oppure (con gli sfondi disattivati,
+ * che e' il default di ogni browser) testo color osso sul bianco, cioe'
+ * niente.
+ *
+ * Il pezzo che conta e' il primo: i token tornano ai valori chiari, e tutto
+ * il resto del CSS li segue da se'. Quello che i token non raggiungono lo
+ * prende `print.js`, che scambia il tema per la durata della stampa: la
+ * colorazione del codice, per esempio, la scrive un foglio agganciato a
+ * `data-theme="dark"` e nessun token la tocca. Questo file resta la rete per
+ * chi ha JavaScript spento.
+ *
+ * Qui NON ci sono selettori di un consumatore: la sidebar di Sphinx e
+ * l'header del tema si nascondono nei rispettivi fogli.
+ */
+
+@page {
+  margin: 2cm 1.8cm;
+}
+
+@media print {
+  :root,
+  html,
+  html[data-theme="dark"],
+  html[data-theme="light"] {
+    --pt-bg:            #FFFFFF;   /* carta vera, non osso: e' gia' bianca lei */
+    --pt-bg-elev:       #FFFFFF;
+    --pt-bg-deep:       #FFFFFF;
+    --pt-bg-elev-warm:  #F4F4F4;
+    --pt-bg-tint-soft:  #F4F4F4;
+    --pt-bg-tint:       #EDEDED;
+    --pt-fg:            #000000;
+    --pt-fg-muted:      #333333;
+    --pt-fg-subtle:     #444444;
+    --pt-border:        #CCCCCC;
+    --pt-border-strong: #999999;
+    /* in tema scuro gli accenti schiariscono per reggere il fondo nero; su
+       carta bianca quelle varianti sono slavate, quindi tornano le originali */
+    --pt-accent:        #A44B28;
+    --pt-accent-hover:  #9A4222;
+    --pt-accent-2:      #1F5E58;
+    --pt-accent-3:      #8A6F2E;
+
+    background: #FFFFFF !important;
+    color: #000000 !important;
+  }
+
+  body {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+    font-size: 11pt;
+    line-height: 1.5;
+  }
+
+  /*
+   * L'aurora vive su tre layer fissi (aurora.css) e in stampa non e'
+   * atmosfera, e' toner.
+   */
+  html::before,
+  body::before,
+  body::after {
+    display: none !important;
+    content: none !important;
+  }
+
+  /*
+   * In dark le immagini si invertono via CSS, perche' un diagramma su crema
+   * su fondo nero acceca. Sul foglio l'inversione va tolta, o le figure
+   * escono in negativo.
+   */
+  html[data-theme="dark"] img,
+  img {
+    filter: none !important;
+  }
+
+  /* Niente comandi su carta: un bottone stampato e' un bottone che mente. */
+  button,
+  .btn {
+    display: none !important;
+  }
+
+  /* Titoli mai orfani del proprio contenuto. */
+  h1, h2, h3, h4 {
+    break-after: avoid;
+    color: #000000 !important;
+  }
+
+  p, li {
+    orphans: 3;
+    widows: 3;
+  }
+
+  pre, figure, blockquote, table {
+    break-inside: avoid;
+  }
+
+  /* Codice: chiaro, bordato, a capo invece dello scroll (su carta non si
+     scorre, e la riga tagliata e' persa). */
+  pre {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+    border: 1pt solid #999999;
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow: visible;
+  }
+
+  /*
+   * Link: testo normale. L'URL fra parentesi lo aggiunge il consumatore sul
+   * proprio contenitore di prosa, non qui: stampato su OGNI link, il foglio
+   * si riempirebbe degli indirizzi della navigazione.
+   */
+  a {
+    color: #000000 !important;
+    text-decoration: none;
+    background: none !important;
+  }
+
+  img, svg {
+    max-width: 100% !important;
+    break-inside: avoid;
+  }
+}
