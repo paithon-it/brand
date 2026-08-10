@@ -109,6 +109,27 @@
   }
 
   /*
+   * La rete vera, per chi ha JavaScript spento e quindi non ha print.js.
+   * La tavolozza della sintassi pende da `data-theme` e nessun token la
+   * raggiunge: col tema scuro attivo, i suoi colori CHIARI (gialli, verdi,
+   * lilla, pensati per il nero) finiscono su carta bianca, e il codice non
+   * si legge piu'. Verificato con un browser a JavaScript spento: il fondo
+   * diventa bianco e meta' delle righe spariscono.
+   *
+   * Qui si rinuncia al colore per tenere la leggibilita': nero su bianco.
+   * Con print.js attivo il tema e' gia' `light` quando questa regola
+   * verrebbe applicata, quindi non si applica, e la tavolozza chiara di
+   * Pygments resta intera. Il degrado e' monocromatico, non illeggibile.
+   */
+  html[data-theme="dark"] pre,
+  html[data-theme="dark"] pre *,
+  html[data-theme="dark"] code,
+  html[data-theme="dark"] code * {
+    color: #000000 !important;
+    background: transparent !important;
+  }
+
+  /*
    * Link: testo normale. L'URL fra parentesi lo aggiunge il consumatore sul
    * proprio contenitore di prosa, non qui: stampato su OGNI link, il foglio
    * si riempirebbe degli indirizzi della navigazione.
