@@ -196,15 +196,13 @@
   --pt-measure-wide: 74ch;      /* da ~1200px, dove la riga puo' allungarsi */
 
   /*
-   * SUPERATO. Resta perche' il tema del sito lo usa in dieci punti
-   * (typography.css, utilities.css, home-shared.css, modelli.css, corso.css,
-   * notes.css), alcuni col fallback `var(--pt-reading, 680px)` battuto a
-   * mano. Non si ridefinisce sotto ai consumatori: `ch` si risolve sul
-   * font-size dell'elemento a cui e' applicato, quindi lo stesso 68ch da'
-   * larghezze diverse a seconda di dove atterra, e il cambio non sarebbe
-   * prevedibile. Quando il tema migra a --pt-measure, questa riga se ne va.
+   * Qui c'era `--pt-reading: 680px`, e il tema del sito lo usava in quaranta
+   * punti. Migrato: 68ch misurati con un browser fanno 680,73px sul corpo
+   * desktop, cioe' la stessa colonna, e a 768px stringono a 647 invece di
+   * tenere una riga da settantun caratteri. Il numero in px non descriveva
+   * la cosa che si vuole tenere ferma, che e' quanti caratteri stanno su una
+   * riga.
    */
-  --pt-reading:     680px;
 
   /* ---------- Border radius ---------- */
 

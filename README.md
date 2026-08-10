@@ -56,8 +56,9 @@ Oltre a colori/tipo/spacing storici, `tokens.css` include ora:
 - **Misura di riga** `--pt-measure` / `--pt-measure-wide`, in `ch`: la colonna
   di lettura si misura in caratteri, non in pixel, perché il corpo del testo
   scala con la viewport e 680px valgono 26 caratteri su un telefono e 75 su un
-  tablet. `--pt-reading` resta finché il tema del sito non ci migra, ed è
-  segnato come superato.
+  tablet. Sostituisce `--pt-reading`, che non esiste più: sul corpo desktop
+  68ch fanno 680,73px, cioè la stessa colonna di prima, e la differenza si
+  vede dove il testo rimpicciolisce.
 
 ## Come consumarlo
 
