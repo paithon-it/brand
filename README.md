@@ -20,7 +20,8 @@ bozze, niente materiale di cui non abbiamo i diritti.
 | `tokens.css` | **La fonte.** Tutti i design token come CSS custom properties (`--pt-*`): colori (light/dark), tipografia, spacing, layout, radius, shadow, transizioni. Nessun valore va duplicato altrove — si legge da qui. |
 | `logos/paithon-mark.svg` | Il segno: triangolo di Penrose (tribar GEB), palette-locked, identico in light/dark. Stesso mark di header sito, favicon e copertina libro. |
 | `fonts.md` | Le 3 famiglie + pesi + URL Google Fonts esatto. |
-| `motion/` | **Lo stile delle animazioni.** Tema Manim per le clip esplicative (`paithon_anim.py`), gli stessi tempi e la stessa curva per il web (`motion.css`), i TTF per il rendering. Dettagli in `motion/README.md`. |
+| `motion/` | **Lo stile delle animazioni.** I due motori delle figure animate: SVG (`paithon_svg.py`, il default) e Manim (`paithon_anim.py`), più gli stessi tempi e la stessa curva per il web (`motion.css`) e i TTF per il rendering. Dettagli in `motion/README.md`. |
+| `print.css` / `print.js` | **La stampa.** Il nucleo condiviso del foglio: i token tornano ai valori chiari e il JS scambia il tema per la durata della stampa, così segue anche ciò che i token non raggiungono (la tavolozza del codice). I selettori di ciascun consumatore restano da lui. |
 | `social/` | Template per Instagram/YouTube/etc. (export PNG/SVG). |
 
 ## Palette (subset memorabile — l'elenco completo è in `tokens.css`)
@@ -52,6 +53,11 @@ Oltre a colori/tipo/spacing storici, `tokens.css` include ora:
 - **`color-scheme` / `accent-color`** nativi per light/dark.
 - Accent UI accessibile **`#A44B28`** (AA); `#B5532C` resta il terracotta delle
   illustrazioni (palette fissa).
+- **Misura di riga** `--pt-measure` / `--pt-measure-wide`, in `ch`: la colonna
+  di lettura si misura in caratteri, non in pixel, perché il corpo del testo
+  scala con la viewport e 680px valgono 26 caratteri su un telefono e 75 su un
+  tablet. `--pt-reading` resta finché il tema del sito non ci migra, ed è
+  segnato come superato.
 
 ## Come consumarlo
 

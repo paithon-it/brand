@@ -180,8 +180,31 @@
   /* ---------- Layout ---------- */
 
   --pt-container:   1280px;     /* container massimo */
-  --pt-reading:     680px;      /* colonna di lettura (≈65 caratteri) */
   --pt-grid-gap:    24px;
+
+  /*
+   * Misura di riga. In `ch`, non in px: il corpo del testo scala con la
+   * viewport, quindi una colonna larga 680px vale 26 caratteri su un telefono
+   * e 75 su un tablet. Il numero in px non descrive niente, ed e' misurato
+   * con un browser vero a dodici larghezze.
+   *
+   * Si dichiara UNA volta sul contenitore del contenuto, non su `p`: se la
+   * mettono i paragrafi, codice, figure e tabelle riempiono il container e
+   * nella stessa pagina si vedono tre bordi sinistri diversi.
+   */
+  --pt-measure:      68ch;
+  --pt-measure-wide: 74ch;      /* da ~1200px, dove la riga puo' allungarsi */
+
+  /*
+   * SUPERATO. Resta perche' il tema del sito lo usa in dieci punti
+   * (typography.css, utilities.css, home-shared.css, modelli.css, corso.css,
+   * notes.css), alcuni col fallback `var(--pt-reading, 680px)` battuto a
+   * mano. Non si ridefinisce sotto ai consumatori: `ch` si risolve sul
+   * font-size dell'elemento a cui e' applicato, quindi lo stesso 68ch da'
+   * larghezze diverse a seconda di dove atterra, e il cambio non sarebbe
+   * prevedibile. Quando il tema migra a --pt-measure, questa riga se ne va.
+   */
+  --pt-reading:     680px;
 
   /* ---------- Border radius ---------- */
 
