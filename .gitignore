@@ -1,3 +1,6 @@
 .DS_Store
 __pycache__/
 *.pyc
+
+# La cache dei font variabili scaricati da google/fonts: si riscarica.
+stampa/.variabili/

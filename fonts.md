@@ -5,8 +5,15 @@ Tutte e tre di origine Google Fonts, free, sotto SIL Open Font License 1.1.
 **Self-hostate, non da CDN.** Il Garante privacy considera il caricamento
 remoto da Google Fonts un trasferimento di IP verso gli USA: il sito serve i
 WOFF2 dal proprio dominio. In `motion/fonts/` stanno invece i TTF, perché Pango
-(il motore di testo di Manim) non legge i WOFF2 — attribuzioni e licenza in
-[`motion/fonts/NOTICE.md`](motion/fonts/NOTICE.md).
+(il motore di testo di Manim) non legge i WOFF2 (attribuzioni e licenza in
+[`motion/fonts/NOTICE.md`](motion/fonts/NOTICE.md)).
+
+**E in `stampa/fonts/` stanno le istanze statiche**, sedici, per la
+composizione del libro in PDF: `fontspec` sotto LuaLaTeX di un font variabile
+prende l'istanza di *default*, e il default di Fraunces è `wght 900, WONK 1`.
+Non si scrivono a mano, le genera
+[`stampa/genera-font.py`](stampa/genera-font.py); attribuzioni, assi congelati
+e ragioni in [`stampa/fonts/NOTICE.md`](stampa/fonts/NOTICE.md).
 
 | Ruolo | Famiglia | Pesi | Note |
 |---|---|---|---|
