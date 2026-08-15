@@ -159,7 +159,7 @@ class Figura:
         stop = self.fermi or "*"
         return f"""<?xml version="1.0" encoding="UTF-8"?>
 <!--
-  paithon book, figura animata: {titolo}
+  Paithon Book, figura animata: {titolo}
   Generata da animazioni/svg/{nome}.py: non modificare a mano.
   Palette-locked, fondo trasparente, animazione in CSS puro (nessuno script).
   Lo stato di riposo è quello finale: chi non anima (stampa, PDF,

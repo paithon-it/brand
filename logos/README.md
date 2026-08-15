@@ -33,7 +33,13 @@ blocco `[data-theme="dark"]` di `tokens.css` dall'altra. Il teal `#2D5A5C` su
 `#0E0C0A` sarebbe illeggibile, ed è lo stesso motivo per cui `PAITHON_TEMA=scuro`
 esiste nelle animazioni.
 
-Il lockup «paithon book» del libro
+Il lockup del libro **Paithon Book**
 (`paithonbook/book/_static/logo-{light,dark}.svg`, più le varianti `-inline-`)
 segue questa convenzione ed è l'esempio da guardare. Non sta qui perché è il
-segno di quel prodotto, non della marca: `aria-label="paithon book"`.
+segno di quel prodotto, non della marca: `aria-label="Paithon Book"`.
+
+Una cosa da non «correggere»: **nel disegno il lockup resta minuscolo**, perché
+compone il wordmark `paithon` vettorizzato, che è il segno della marca e vale
+anche per il sito. Il nome scritto invece va con le iniziali maiuscole, ed è la
+convenzione normale dei marchi in minuscolo: il segno resta com'è disegnato, la
+prosa lo scrive in tondo. Le due cose divergono di proposito.
