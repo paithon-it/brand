@@ -85,10 +85,25 @@
   --pt-illus-cream:      #F8F5EE;
   --pt-illus-ink:        #1A1A1A;
 
-  /* Sistema (errori, success, warning) */
-  --pt-success:      #2D6A4F;
-  --pt-warning:      #C9A961;
-  --pt-error:        var(--pt-accent);   /* terracotta = errore; segue light/dark */
+  /*
+   * Sistema (errori, success, warning). Sono colori di INCHIOSTRO: si
+   * ribaltano con il tema, come --pt-accent. Il verde e l'ocra non lo
+   * facevano — dichiarati una volta sola qui, nel blocco chiaro — e
+   * quindi in tema scuro «completato» stava a 2,9:1 e l'ocra in tema
+   * chiaro a 2,0:1 (audit 2026-08-25). E' lo stesso meccanismo del
+   * nero-su-nero dei blocchi di codice: un colore la cui unica
+   * definizione vive in un tema solo.
+   *
+   * La CAMPITURA piena e' un ruolo diverso e ha il suo token. Una
+   * pastiglia verde con scritto bianco sopra vuole un verde che regga
+   * il bianco, quindi NON si schiarisce sul fondo scuro: schiarirla
+   * porterebbe #fff da 6,4:1 a 3,0:1. Il ruolo non si deduce dal
+   * colore — e' la stessa ragione per cui esistono i --pt-code-*.
+   */
+  --pt-success:       #2D6A4F;   /* inchiostro — 5,7:1 sul chiaro */
+  --pt-success-solid: #2D6A4F;   /* campitura, ci va sopra il bianco: 6,4:1 */
+  --pt-warning:       #7A5E1F;   /* ocra profonda — 5,8:1 sul chiaro */
+  --pt-error:         var(--pt-accent);   /* terracotta = errore; segue light/dark */
 
   /* Borders e dividers */
   --pt-border:        #E2DCC9;
@@ -280,6 +295,14 @@
   --pt-accent-3:       #DDB874;
   --pt-flag-white:     #FCF9F2;
 
+  /*
+   * Sistema: l'inchiostro si schiarisce per il fondo scuro, la
+   * campitura no (--pt-success-solid resta quella del chiaro, perche'
+   * ci va sopra il bianco). --pt-error segue --pt-accent da se'.
+   */
+  --pt-success:       #5FA37B;   /* 6,5:1 su bg, 6,2:1 su elev */
+  --pt-warning:       #C9A961;   /* ocra chiara — 8,7:1 sullo scuro */
+
   --pt-border:        #221F1A;
   --pt-border-strong: #34302A;
 
@@ -312,6 +335,8 @@
     --pt-accent-2-soft:  #18302E;
     --pt-accent-3:       #DDB874;
     --pt-flag-white:     #FCF9F2;
+    --pt-success:       #5FA37B;
+    --pt-warning:       #C9A961;
     --pt-border:        #221F1A;
     --pt-border-strong: #34302A;
     --pt-aurora-alpha:  0.18;
