@@ -29,9 +29,9 @@ bozze, niente materiale di cui non abbiamo i diritti.
 Illustrazioni editoriali: **solo** questi 5 + neutri warm. Niente gradienti
 AI-style, neon, glassmorphism.
 
-- `#B5532C` terracotta — accent primario
-- `#1F5E58` verde petrolio — secondario (mirato: eyebrow, pill, marker)
-- `#C9A961` ocra — terziario
+- `#B5532C` terracotta — accento caldo (in interfaccia `--pt-terra` `#A44B28`, anche errori)
+- `#1F5E58` petrolio, il blu del libro — accento dell'interfaccia (`--pt-accent`)
+- `#C9A961` ocra — terziario, come campitura; come testo `--pt-accent-3-ink` `#7A5E1F`
 - `#1A1714` warm black
 - `#F4F1E8` cream
 
@@ -51,8 +51,9 @@ Oltre a colori/tipo/spacing storici, `tokens.css` include ora:
 - **Focus ring** `--pt-ring` / `--pt-ring-offset`: anello unico token-driven.
 - **Spaziatura di sezione fluida** `--pt-space-section{,-lg}`, `--pt-shadow-xs`.
 - **`color-scheme` / `accent-color`** nativi per light/dark.
-- Accent UI accessibile **`#A44B28`** (AA); `#B5532C` resta il terracotta delle
-  illustrazioni (palette fissa).
+- Accento UI **`#1F5E58`**, il blu del libro (AA, 6,6:1 su bg); il terracotta
+  accessibile **`#A44B28`** passa a `--pt-terra` ed è il colore degli errori;
+  `#B5532C` resta il terracotta delle illustrazioni (palette fissa).
 - **Misura di riga** `--pt-measure` / `--pt-measure-wide`, in `ch`: la colonna
   di lettura si misura in caratteri, non in pixel, perché il corpo del testo
   scala con la viewport e 680px valgono 26 caratteri su un telefono e 75 su un

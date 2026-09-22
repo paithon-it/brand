@@ -32,12 +32,22 @@
 
   /* Accent — palette italiana editoriale */
   /*
-   * Terracotta UI (link, testo, bottoni): #A44B28 — variante AA della
-   * terracotta brand #B5532C (5.1:1 su bg contro 4.4:1). #B5532C resta il
-   * terracotta delle ILLUSTRAZIONI (palette fissa, hardcoded negli SVG).
+   * L'accento dell'interfaccia (link, bottoni, focus, stati attivi) e' il
+   * BLU DEL LIBRO, il petrolio #1F5E58: lo stesso valore di --pt-accent-2,
+   * quindi primario e secondario oggi coincidono. Il terracotta non sparisce:
+   * passa a --pt-terra, un segno caldo da usare di proposito, ed e' il colore
+   * degli errori.
    */
-  --pt-accent:         #A44B28;   /* terracotta italiana (primary, AA) */
-  --pt-accent-hover:   #9A4222;
+  --pt-accent:         #1F5E58;   /* blu del libro (primary, AA) */
+  --pt-accent-hover:   #154843;
+
+  /*
+   * Terracotta UI: #A44B28 — variante AA della terracotta brand #B5532C
+   * (5.1:1 su bg contro 4.4:1). #B5532C resta il terracotta delle
+   * ILLUSTRAZIONI (palette fissa, hardcoded negli SVG).
+   */
+  --pt-terra:          #A44B28;
+  --pt-terra-hover:    #9A4222;
 
   /*
    * Secondary: verde petrolio. Usato in posizioni MOLTO mirate
@@ -51,7 +61,13 @@
   --pt-accent-2-hover: #154843;
   --pt-accent-2-soft:  #C7DAD7;   /* tinta chiara per background lievi */
 
-  --pt-accent-3:       #C9A961;   /* ocra/oro spento (tertiary) */
+  --pt-accent-3:       #C9A961;   /* ocra/oro spento (tertiary): CAMPITURA */
+  /*
+   * L'ocra come TESTO. #C9A961 su crema fa 2,1:1: va bene come fondo, filetto
+   * o faccia del tribar, non per scriverci. Quando il giallo deve essere un
+   * segno leggibile (eyebrow, numero, etichetta) si usa questo.
+   */
+  --pt-accent-3-ink:   #7A5E1F;
 
   /* "Bianco caldo" del tricolore nel logo: giallo molto schiarito verso
      il bianco della bandiera. Fa da luce centrale tra verde e rosso. */
@@ -103,7 +119,8 @@
   --pt-success:       #2D6A4F;   /* inchiostro — 5,7:1 sul chiaro */
   --pt-success-solid: #2D6A4F;   /* campitura, ci va sopra il bianco: 6,4:1 */
   --pt-warning:       #7A5E1F;   /* ocra profonda — 5,8:1 sul chiaro */
-  --pt-error:         var(--pt-accent);   /* terracotta = errore; segue light/dark */
+  --pt-error:         var(--pt-terra);    /* terracotta = errore; segue light/dark.
+                                             NON --pt-accent: e' blu */
 
   /* Borders e dividers */
   --pt-border:        #E2DCC9;
@@ -276,13 +293,15 @@
   --pt-fg-muted:      #BCB3A1;   /* contrast 9.3:1 */
   --pt-fg-subtle:     #8E8676;   /* contrast 5.0:1 — AA per UI metadata */
 
+  /* Accento dark: il blu del libro schiarito per reggere il nero. */
+  --pt-accent:         #5BA39C;
+  --pt-accent-hover:   #76B8B1;
   /*
    * Terracotta dark: piu caldo e leggermente piu luminoso del light
-   * per restare leggibile su nero, ma non neon. Contrast 5.4:1 su
-   * #0E0C0A per testo, abbondante per CTA.
+   * per restare leggibile su nero, ma non neon.
    */
-  --pt-accent:         #E27B52;
-  --pt-accent-hover:   #F39875;
+  --pt-terra:          #E27B52;
+  --pt-terra-hover:    #F39875;
   /*
    * Verde petrolio dark: ribilanciato a #5BA39C — contrast 6.1:1
    * su bg, sufficiente per pillole/eyebrow e marker decorativi.
@@ -293,12 +312,13 @@
   --pt-accent-2-soft:  #18302E;
 
   --pt-accent-3:       #DDB874;
+  --pt-accent-3-ink:   #DDB874;
   --pt-flag-white:     #FCF9F2;
 
   /*
    * Sistema: l'inchiostro si schiarisce per il fondo scuro, la
    * campitura no (--pt-success-solid resta quella del chiaro, perche'
-   * ci va sopra il bianco). --pt-error segue --pt-accent da se'.
+   * ci va sopra il bianco). --pt-error segue --pt-terra da se'.
    */
   --pt-success:       #5FA37B;   /* 6,5:1 su bg, 6,2:1 su elev */
   --pt-warning:       #C9A961;   /* ocra chiara — 8,7:1 sullo scuro */
@@ -328,12 +348,15 @@
     --pt-fg:            #F4ECDD;
     --pt-fg-muted:      #BCB3A1;
     --pt-fg-subtle:     #8E8676;
-    --pt-accent:         #E27B52;
-    --pt-accent-hover:   #F39875;
+    --pt-accent:         #5BA39C;
+    --pt-accent-hover:   #76B8B1;
+    --pt-terra:          #E27B52;
+    --pt-terra-hover:    #F39875;
     --pt-accent-2:       #5BA39C;
     --pt-accent-2-hover: #76B8B1;
     --pt-accent-2-soft:  #18302E;
     --pt-accent-3:       #DDB874;
+    --pt-accent-3-ink:   #DDB874;
     --pt-flag-white:     #FCF9F2;
     --pt-success:       #5FA37B;
     --pt-warning:       #C9A961;

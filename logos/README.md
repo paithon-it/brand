@@ -2,9 +2,13 @@
 
 - `paithon-mark.svg` — il segno (triangolo di Penrose), master. Palette-locked,
   uguale in light/dark. È lo stesso di header sito / favicon / copertina libro.
+- `paithon-wordmark.svg` — il wordmark «paithon» vettorizzato, con il tribar al
+  posto della «a»: il lockup del libro senza «book». Parola in `currentColor`,
+  tribar a colori fissi con tratto `#1A1A1A`, quindi pensato per fondi chiari
+  (sullo scuro il tratto sparisce: lì vale la tabella qui sotto).
 
-Il logotipo "paithon" è **testuale**: Fraunces 800, non un file. Per ricrearlo
-basta il font (vedi `../fonts.md`), così resta nitido a ogni dimensione.
+Il logotipo "paithon" nasce **testuale**: Fraunces 800 (vedi `../fonts.md`).
+Dove serve il segno composto, tribar incluso, c'è `paithon-wordmark.svg`.
 
 ## Il segno da solo, e il segno dentro un'interfaccia
 

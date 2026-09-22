@@ -39,10 +39,13 @@
     --pt-border-strong: #999999;
     /* in tema scuro gli accenti schiariscono per reggere il fondo nero; su
        carta bianca quelle varianti sono slavate, quindi tornano le originali */
-    --pt-accent:        #A44B28;
-    --pt-accent-hover:  #9A4222;
+    --pt-accent:        #1F5E58;
+    --pt-accent-hover:  #154843;
+    --pt-terra:         #A44B28;
+    --pt-terra-hover:   #9A4222;
     --pt-accent-2:      #1F5E58;
     --pt-accent-3:      #8A6F2E;
+    --pt-accent-3-ink:  #7A5E1F;
 
     background: #FFFFFF !important;
     color: #000000 !important;
