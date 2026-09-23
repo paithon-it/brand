@@ -32,20 +32,19 @@
 
   /* Accent — palette italiana editoriale */
   /*
-   * L'accento dell'interfaccia (link, bottoni, focus, stati attivi) e' il
-   * BLU DEL LIBRO, il petrolio #1F5E58: lo stesso valore di --pt-accent-2,
-   * quindi primario e secondario oggi coincidono. Il terracotta non sparisce:
-   * passa a --pt-terra, un segno caldo da usare di proposito, ed e' il colore
-   * degli errori.
+   * Terracotta UI (link, testo, bottoni): #A44B28 — variante AA della
+   * terracotta brand #B5532C (5.1:1 su bg contro 4.4:1). #B5532C resta il
+   * terracotta delle ILLUSTRAZIONI (palette fissa, hardcoded negli SVG).
+   *
+   * A settembre 2026 si e' provato come accento il blu del libro (#1F5E58):
+   * l'autore l'ha visto accanto al sito in produzione e ha deciso che era
+   * meglio il terracotta. Da quella prova resta --pt-terra, oggi uguale
+   * all'accento: e' il terracotta come RUOLO (errori, segno caldo voluto) e
+   * non segue l'accento se questo dovesse cambiare di nuovo.
    */
-  --pt-accent:         #1F5E58;   /* blu del libro (primary, AA) */
-  --pt-accent-hover:   #154843;
+  --pt-accent:         #A44B28;   /* terracotta italiana (primary, AA) */
+  --pt-accent-hover:   #9A4222;
 
-  /*
-   * Terracotta UI: #A44B28 — variante AA della terracotta brand #B5532C
-   * (5.1:1 su bg contro 4.4:1). #B5532C resta il terracotta delle
-   * ILLUSTRAZIONI (palette fissa, hardcoded negli SVG).
-   */
   --pt-terra:          #A44B28;
   --pt-terra-hover:    #9A4222;
 
@@ -120,7 +119,7 @@
   --pt-success-solid: #2D6A4F;   /* campitura, ci va sopra il bianco: 6,4:1 */
   --pt-warning:       #7A5E1F;   /* ocra profonda — 5,8:1 sul chiaro */
   --pt-error:         var(--pt-terra);    /* terracotta = errore; segue light/dark.
-                                             NON --pt-accent: e' blu */
+                                             oggi coincide con l'accento */
 
   /* Borders e dividers */
   --pt-border:        #E2DCC9;
@@ -293,13 +292,13 @@
   --pt-fg-muted:      #BCB3A1;   /* contrast 9.3:1 */
   --pt-fg-subtle:     #8E8676;   /* contrast 5.0:1 — AA per UI metadata */
 
-  /* Accento dark: il blu del libro schiarito per reggere il nero. */
-  --pt-accent:         #5BA39C;
-  --pt-accent-hover:   #76B8B1;
   /*
    * Terracotta dark: piu caldo e leggermente piu luminoso del light
-   * per restare leggibile su nero, ma non neon.
+   * per restare leggibile su nero, ma non neon. Contrast 6.7:1 su
+   * #0E0C0A per testo, abbondante per CTA.
    */
+  --pt-accent:         #E27B52;
+  --pt-accent-hover:   #F39875;
   --pt-terra:          #E27B52;
   --pt-terra-hover:    #F39875;
   /*
@@ -353,8 +352,8 @@
     --pt-fg:            #F4ECDD;
     --pt-fg-muted:      #BCB3A1;
     --pt-fg-subtle:     #8E8676;
-    --pt-accent:         #5BA39C;
-    --pt-accent-hover:   #76B8B1;
+    --pt-accent:         #E27B52;
+    --pt-accent-hover:   #F39875;
     --pt-terra:          #E27B52;
     --pt-terra-hover:    #F39875;
     --pt-accent-2:       #5BA39C;
