@@ -311,8 +311,13 @@
   --pt-accent-2-hover: #76B8B1;
   --pt-accent-2-soft:  #18302E;
 
-  --pt-accent-3:       #DDB874;
-  --pt-accent-3-ink:   #DDB874;
+  /*
+   * Ocra dark = ocra del tribar (--pt-illus-ocra), la stessa in tutti e due i
+   * temi: accanto al logo un giallo diverso si vede. Sul nero regge anche come
+   * testo (8,7:1), quindi campitura e inchiostro coincidono.
+   */
+  --pt-accent-3:       #C9A961;
+  --pt-accent-3-ink:   #C9A961;
   --pt-flag-white:     #FCF9F2;
 
   /*
@@ -355,8 +360,8 @@
     --pt-accent-2:       #5BA39C;
     --pt-accent-2-hover: #76B8B1;
     --pt-accent-2-soft:  #18302E;
-    --pt-accent-3:       #DDB874;
-    --pt-accent-3-ink:   #DDB874;
+    --pt-accent-3:       #C9A961;
+    --pt-accent-3-ink:   #C9A961;
     --pt-flag-white:     #FCF9F2;
     --pt-success:       #5FA37B;
     --pt-warning:       #C9A961;
