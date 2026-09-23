@@ -183,8 +183,12 @@ cambiano fra i due temi.
 
 `PAITHON_TEMA=scuro` non ridefinisce quella palette: produce un rendering
 diverso, pensato per stare su fondo scuro, che prende in prestito gli accenti
-dark dell'interfaccia (terracotta `#E27B52`, teal `#5BA39C`, ocra `#DDB874` su
-`#0E0C0A`). Serve perché il teal `#2D5A5C` su `#0E0C0A` sarebbe illeggibile.
+dark dell'interfaccia (terracotta `#E27B52`, teal `#5BA39C` su `#0E0C0A`).
+Serve perché il teal `#2D5A5C` su `#0E0C0A` sarebbe illeggibile. L'ocra invece
+resta `#C9A961`, quella del logo, che sul nero regge da sola (8,7:1).
+
+Le clip scure esportate prima di settembre 2026 hanno l'ocra `#DDB874`: restano
+come sono, e prendono `#C9A961` solo quando si rigenerano.
 
 Nel **libro** non serve: le pagine invertono le `<img>` in dark mode via CSS,
 e una clip su crema diventa da sola la sua variante scura. Serve per social,

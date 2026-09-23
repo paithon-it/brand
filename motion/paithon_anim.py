@@ -47,10 +47,12 @@ BORDER = "#E2DCC9"
 BORDER_STRONG = "#C5BEAA"
 
 # Varianti dark ufficiali (blocco [data-theme="dark"] di tokens.css): piu'
-# luminose per reggere sul fondo scuro, mai neon.
+# luminose per reggere sul fondo scuro, mai neon. L'ocra no: e' quella del
+# logo anche sullo scuro (8,7:1 su INK_DEEP), perche' i colori devono essere
+# quelli del logo. Fino a settembre 2026 era #DDB874.
 TERRACOTTA_DARK = "#E27B52"
 TEAL_DARK = "#5BA39C"
-OCRA_DARK = "#DDB874"
+OCRA_DARK = OCRA
 INK_DEEP = "#0E0C0A"
 OSSO = "#F4ECDD"
 FG_MUTED_DARK = "#BCB3A1"
