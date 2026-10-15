@@ -1,0 +1,11 @@
+# Aree della security review (skill security-review-range, hook pre-push).
+#   <area>: <pathspec>...      una patch per area, per il revisore
+#   exclude: <glob>...         non si rivede: documentazione, licenze, prove
+#
+# Il brand e' PUBBLICO e i consumatori (sito, libro) lo montano come submodule:
+# il CSS e il JS finiscono in ogni pagina, il Python gira nelle loro build.
+web: :(glob)*.css print.js motion/motion.css
+codice: :(glob)**/*.py figure/palette.json
+asset: logos social fonts motion/fonts stampa/fonts
+strumenti: .githooks .claude CLAUDE.md .gitignore
+exclude: README.md **/README.md fonts.md **/NOTICE.md LICENSE **/OFL*.txt prove/**
