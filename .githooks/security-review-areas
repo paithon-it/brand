@@ -4,8 +4,10 @@
 #
 # Il brand e' PUBBLICO e i consumatori (sito, libro) lo montano come submodule:
 # il CSS e il JS finiscono in ogni pagina, il Python gira nelle loro build.
-web: :(glob)*.css print.js motion/motion.css
-codice: :(glob)**/*.py figure/palette.json
-asset: logos social fonts motion/fonts stampa/fonts
-strumenti: .githooks .claude CLAUDE.md .gitignore
+# Glob per estensione, cosi' un file nuovo cade in un'area anche se nessuno
+# aggiorna questa lista.
+web: :(glob)**/*.css :(glob)**/*.js :(glob)**/*.html
+codice: :(glob)**/*.py :(glob)**/*.json :(glob)**/*.sh
+asset: :(glob)**/*.svg logos social fonts motion/fonts stampa/fonts
+strumenti: .githooks .claude .github CLAUDE.md .gitignore
 exclude: README.md **/README.md fonts.md **/NOTICE.md LICENSE **/OFL*.txt prove/**

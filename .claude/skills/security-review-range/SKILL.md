@@ -71,10 +71,14 @@ one patch per area from the same file, so keep them in sync):
 
 | Area | Paths |
 |---|---|
-| web | `:(glob)*.css` (`tokens.css`, `fonts.css`, `aurora.css`, `print.css`), `print.js`, `motion/motion.css` |
-| codice | `:(glob)**/*.py` (`figure/palette.py`, `motion/paithon_anim.py`, `motion/paithon_svg.py`, `stampa/genera-font.py`), `figure/palette.json` |
-| asset | `logos`, `social`, `fonts`, `motion/fonts`, `stampa/fonts` |
-| strumenti | `.githooks`, `.claude`, `CLAUDE.md`, `.gitignore` |
+| web | `:(glob)**/*.css`, `:(glob)**/*.js`, `:(glob)**/*.html` — today `tokens.css`, `fonts.css`, `aurora.css`, `print.css`, `print.js`, `motion/motion.css` |
+| codice | `:(glob)**/*.py`, `:(glob)**/*.json`, `:(glob)**/*.sh` — today `figure/palette.py`, `figure/palette.json`, `motion/paithon_anim.py`, `motion/paithon_svg.py`, `stampa/genera-font.py` |
+| asset | `:(glob)**/*.svg`, `logos`, `social`, `fonts`, `motion/fonts`, `stampa/fonts` |
+| strumenti | `.githooks`, `.claude`, `.github`, `CLAUDE.md`, `.gitignore` |
+
+A file in `diff.patch` that falls in no area (and is not excluded) is still
+reviewed: give it to the sub-agent of the closest area, or to one of its own
+with the Common instructions, and say so in the report.
 
 ## 1. Analyses — one sub-agent per touched area, in parallel
 
@@ -143,7 +147,7 @@ Grep Glob Agent Skill`; any `Bash(...)` allowlist, any widened tool list,
 any change that makes the verdict parsing fail-open (a PASS when the review
 did not run, or when the last line is not exactly `SECURITY-REVIEW: PASS`),
 any change to `exclude:` that takes executable files (CSS, JS, Python, SVG)
-out of the review is a finding. `.gitignore`: a change that stops ignoring
+out of the review is a finding. `.github/` (none today): a workflow is judged with the CI rules of the Common instructions — a concrete path from untrusted input (`pull_request_target`, `${{ github.event.* }}` in `run:`, secrets reachable from forks) or nothing. `.gitignore`: a change that stops ignoring
 local caches is only a finding if it would publish something private.
 
 ### Common instructions (copy into every sub-agent prompt)
