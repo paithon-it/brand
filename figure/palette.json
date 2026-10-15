@@ -1,0 +1,55 @@
+{
+  "_leggimi": "La palette delle figure e la sua resa scura. Fonte unica: chi ricolora una figura (sito, libro, motori di motion/) legge da qui. Spiegazione in figure/README.md.",
+
+  "ruoli": {
+    "fondo":                   {"chiaro": "#F8F5EE", "scuro": "#16130F", "illus": "--pt-illus-cream",          "token": "--pt-bg-elev"},
+    "superficie":              {"chiaro": "#F8F5EE", "scuro": "#16130F", "illus": "--pt-illus-cream",          "token": "--pt-bg-elev"},
+    "superficie-tinta":        {"chiaro": "#F2EDE2", "scuro": "#1A1611",                                       "token": "--pt-bg-elev-warm"},
+    "superficie-alta":         {"chiaro": "#FFFFFF", "scuro": "#1A1611",                                       "token": "--pt-bg-elev-warm"},
+
+    "inchiostro":              {"chiaro": "#1A1A1A", "scuro": "#F4ECDD", "illus": "--pt-illus-ink",            "token": "--pt-fg"},
+    "inchiostro-medio":        {"chiaro": "#5E5852", "scuro": "#BCB3A1", "illus": "--pt-illus-ink-medio",      "token": "--pt-fg-muted"},
+    "inchiostro-tenue":        {"chiaro": "#8B847C", "scuro": "#8E8676", "illus": "--pt-illus-ink-tenue",      "token": "--pt-fg-subtle"},
+    "filetto":                 {"chiaro": "#E8E2D5", "scuro": "#221F1A", "illus": "--pt-illus-filetto",        "token": "--pt-border"},
+    "filetto-forte":           {"chiaro": "#C9C2B4", "scuro": "#34302A", "illus": "--pt-illus-filetto-forte",  "token": "--pt-border-strong"},
+
+    "accento":                 {"chiaro": "#B5532C", "scuro": "#E27B52", "illus": "--pt-illus-terracotta",     "token": "--pt-accent"},
+    "accento-2":               {"chiaro": "#2D5A5C", "scuro": "#5BA39C", "illus": "--pt-illus-teal",           "token": "--pt-accent-2"},
+    "accento-3":               {"chiaro": "#C9A961", "scuro": "#C9A961", "illus": "--pt-illus-ocra",           "token": "--pt-accent-3"},
+    "accento-3-cupo":          {"chiaro": "#9A7B2E", "scuro": "#C9A961", "illus": "--pt-illus-ocra-cupo",      "token": "--pt-accent-3-ink"},
+
+    "etichetta-chiara":        {"chiaro": "#F8F5EE", "scuro": "#16130F", "token": "--pt-bg-elev",
+                                "nota": "testo chiaro su una campitura scura o d'accento: sullo scuro la campitura si schiarisce e il testo diventa il fondo"},
+    "etichetta-scura":         {"chiaro": "#1A1A1A", "scuro": "#16130F", "token": "--pt-bg-elev",
+                                "nota": "testo scuro su una campitura d'accento: resta scuro anche sullo scuro"},
+    "etichetta-accento":       {"chiaro": "#B5532C", "scuro": "#B5532C", "illus": "--pt-illus-terracotta",
+                                "nota": "testo d'accento sopra l'inchiostro, che sullo scuro diventa osso: serve l'accento pieno, non quello schiarito"},
+    "etichetta-accento-2":     {"chiaro": "#2D5A5C", "scuro": "#2D5A5C", "illus": "--pt-illus-teal",
+                                "nota": "come etichetta-accento"},
+    "etichetta-accento-3":     {"chiaro": "#C9A961", "scuro": "#7A5E1F", "illus": "--pt-illus-ocra",
+                                "nota": "ocra sopra l'inchiostro: sullo scuro l'inchiostro e' osso e l'ocra piena non si legge, quindi l'ocra da testo del chiaro (--pt-accent-3-ink)"}
+  },
+
+  "colori": {
+    "#F8F5EE": "fondo",
+    "#F2EDE2": "superficie-tinta",
+    "#FFFFFF": "superficie-alta",
+    "#1A1A1A": "inchiostro",
+    "#5E5852": "inchiostro-medio",
+    "#8B847C": "inchiostro-tenue",
+    "#E8E2D5": "filetto",
+    "#C9C2B4": "filetto-forte",
+    "#B5532C": "accento",
+    "#2D5A5C": "accento-2",
+    "#C9A961": "accento-3",
+    "#9A7B2E": "accento-3-cupo"
+  },
+
+  "sinonimi": {
+    "#5A524A": "inchiostro-medio",
+    "#A89F92": "inchiostro-tenue",
+    "#8C8478": "inchiostro-tenue",
+    "#E2DCC9": "filetto",
+    "#C5BEAA": "filetto-forte"
+  }
+}

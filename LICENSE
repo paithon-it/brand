@@ -22,9 +22,10 @@ Per qualsiasi altro uso: chiedere. I contatti sono su https://paithon.it
 ECCEZIONE — font di terze parti
 -------------------------------
 
-`motion/fonts/` contiene font che NON sono opera di paithon e a cui questa
-nota NON si applica. Sono di Fraunces, Inter e JetBrains Mono Project Authors,
-ridistribuiti sotto SIL Open Font License 1.1: il testo della licenza è in
-`motion/fonts/OFL.txt` e le attribuzioni in `motion/fonts/NOTICE.md`.
+`fonts/`, `motion/fonts/` e `stampa/fonts/` contengono font che NON sono
+opera di paithon e a cui questa nota NON si applica. Sono di Fraunces, Inter
+e JetBrains Mono Project Authors, ridistribuiti sotto SIL Open Font License
+1.1: il testo della licenza e le attribuzioni sono in ciascuna cartella
+(`OFL*.txt` e `NOTICE.md`).
 
 I termini della OFL prevalgono su questa nota per quei file.

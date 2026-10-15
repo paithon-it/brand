@@ -46,33 +46,39 @@ FG_SUBTLE = "#8C8478"
 BORDER = "#E2DCC9"
 BORDER_STRONG = "#C5BEAA"
 
-# Varianti dark ufficiali (blocco [data-theme="dark"] di tokens.css): piu'
-# luminose per reggere sul fondo scuro, mai neon. L'ocra no: e' quella del
-# logo anche sullo scuro (8,7:1 su INK_DEEP), perche' i colori devono essere
-# quelli del logo. Fino a settembre 2026 era #DDB874.
-TERRACOTTA_DARK = "#E27B52"
-TEAL_DARK = "#5BA39C"
-OCRA_DARK = OCRA
-INK_DEEP = "#0E0C0A"
-OSSO = "#F4ECDD"
-FG_MUTED_DARK = "#BCB3A1"
-FG_SUBTLE_DARK = "#8E8676"
+# La resa scura non si scrive qui: e' quella delle figure statiche, in
+# `figure/palette.json`, cosi' una clip e una figura sulla stessa pagina scura
+# hanno lo stesso fondo e gli stessi colori. Gli accenti si schiariscono per
+# reggere il fondo, mai neon; l'ocra no, e' quella del logo anche sullo scuro
+# (fino a settembre 2026 era #DDB874). Il fondo e' --pt-bg-elev, non il nero
+# della pagina: la figura si stacca appena, come una card.
+sys.path.insert(0, str(_BRAND / "figure"))
+import palette  # noqa: E402
+
+TERRACOTTA_DARK = palette.scuro(TERRACOTTA)
+TEAL_DARK = palette.scuro(TEAL)
+OCRA_DARK = palette.scuro(OCRA)
+FONDO_SCURO = palette.ruolo("fondo")[1]
+OSSO = palette.scuro(INK)
+FG_MUTED_DARK = palette.scuro(FG_MUTED)
+FG_SUBTLE_DARK = palette.scuro(FG_SUBTLE)
+FILETTO_SCURO = palette.scuro(BORDER_STRONG)
 
 # --------------------------------------------------------------------------
 # Tema attivo — variabile d'ambiente PAITHON_TEMA (chiaro | scuro).
 #
-# Nel libro NON serve la variante scura: le pagine invertono le <img> in dark
-# mode via CSS. Serve per social, slide e ovunque il file venga usato cosi'
-# com'e' su fondo scuro.
+# Il libro la usa per la copia scura di ogni clip, che mostra in tema scuro
+# accanto a quella chiara; serve anche per social, slide e ovunque il file
+# venga usato cosi' com'e' su fondo scuro.
 # --------------------------------------------------------------------------
 TEMA = os.environ.get("PAITHON_TEMA", "chiaro").strip().lower()
 SCURO = TEMA in ("scuro", "dark")
 
-SFONDO = INK_DEEP if SCURO else CREAM
+SFONDO = FONDO_SCURO if SCURO else CREAM
 TESTO = OSSO if SCURO else INK
 TESTO_TENUE = FG_MUTED_DARK if SCURO else FG_MUTED
 TESTO_LIEVE = FG_SUBTLE_DARK if SCURO else FG_SUBTLE
-FILETTO = "#34302A" if SCURO else BORDER_STRONG
+FILETTO = FILETTO_SCURO if SCURO else BORDER_STRONG
 
 PRIMARIO = TERRACOTTA_DARK if SCURO else TERRACOTTA
 SECONDARIO = TEAL_DARK if SCURO else TEAL

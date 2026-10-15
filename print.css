@@ -48,6 +48,13 @@
     --pt-accent-3-ink:  #7A5E1F;
     --pt-success:       #2D6A4F;
     --pt-warning:       #7A5E1F;
+    /* Il testo sopra una campitura torna inchiostro: il browser di default
+       non stampa gli sfondi, e un testo chiaro su una campitura che non
+       esce e' bianco su bianco. */
+    --pt-on-accent:        #000000;
+    --pt-on-accent-2:      #000000;
+    --pt-on-accent-3:      #000000;
+    --pt-on-success-solid: #000000;
 
     background: #FFFFFF !important;
     color: #000000 !important;

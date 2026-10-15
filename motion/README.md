@@ -182,21 +182,24 @@ Il default è su crema e usa i `--pt-illus-*` esatti, che per definizione **non*
 cambiano fra i due temi.
 
 `PAITHON_TEMA=scuro` non ridefinisce quella palette: produce un rendering
-diverso, pensato per stare su fondo scuro, che prende in prestito gli accenti
-dark dell'interfaccia (terracotta `#E27B52`, teal `#5BA39C` su `#0E0C0A`).
-Serve perché il teal `#2D5A5C` su `#0E0C0A` sarebbe illeggibile. L'ocra invece
-resta `#C9A961`, quella del logo, che sul nero regge da sola (8,7:1).
+diverso, pensato per stare su fondo scuro, con la resa scura delle figure
+statiche, letta da [`../figure/palette.json`](../figure/palette.json):
+accenti schiariti (terracotta `#E27B52`, teal `#5BA39C`) su `#16130F`, lo
+stesso fondo delle figure scure del sito e del libro. Serve perché il teal
+`#2D5A5C` sullo scuro sarebbe illeggibile. L'ocra invece resta `#C9A961`,
+quella del logo, che sul nero regge da sola (8,7:1).
 
-Le clip scure esportate prima di settembre 2026 hanno l'ocra `#DDB874`: restano
-come sono, e prendono `#C9A961` solo quando si rigenerano.
+Le clip scure esportate prima di ottobre 2026 hanno il fondo `#0E0C0A` e,
+quelle di prima di settembre, l'ocra `#DDB874`: restano come sono, e prendono
+i valori nuovi solo quando si rigenerano.
 
-Nel **libro** non serve: le pagine invertono le `<img>` in dark mode via CSS,
-e una clip su crema diventa da sola la sua variante scura. Serve per social,
-slide e ovunque il file venga usato così com'è su fondo scuro.
+Il libro la usa per la copia scura di ogni clip, che mostra in tema scuro al
+posto di quella chiara. Serve anche per social, slide e ovunque il file venga
+usato così com'è su fondo scuro.
 
-Le figure SVG seguono la stessa logica e non hanno l'equivalente di
-`PAITHON_TEMA`: disegnano su crema con i `--pt-illus-*`, e sul dark ci pensa
-l'inversione CSS della pagina. Un file solo, come per il resto delle figure.
+Le figure SVG non hanno l'equivalente di `PAITHON_TEMA`: si disegnano su
+crema con i `--pt-illus-*`, e la copia scura la ricava il consumatore
+ricolorando per esadecimale con la stessa mappa (`palette.scuro()`).
 
 ## Esportazione
 
