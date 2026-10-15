@@ -8,6 +8,13 @@
  * GPU): i gradienti sono dipinti una volta su layer fissi oversized e la
  * deriva è un translate3d. Pausa completa su prefers-reduced-motion.
  *
+ * La deriva non gira all'infinito: due giri, andata e ritorno (96 e 122
+ * secondi), e si ferma dove era partita, senza scatti. Chi legge a lungo non
+ * ha bisogno di un fondo che si muove, e il telefono non deve ricomporre due
+ * livelli a schermo intero per tutto il tempo. Un consumatore che la vuole
+ * ferma da subito (una pagina di lettura) mette `animation: none` sui due
+ * strati, come fa qui sotto la preferenza di movimento ridotto.
+ *
  * FONTE UNICA condivisa: il sito (tema WordPress) e il libro (Jupyter Book)
  * importano questo file, così lo sfondo resta identico tra le due UI.
  *
@@ -34,7 +41,7 @@ html::before {
     radial-gradient(44vmax 44vmax at 62% 82%,
       rgba(var(--pt-aurora-3), calc(var(--pt-aurora-alpha) * 0.85)) 0%, transparent 62%);
   background-repeat: no-repeat;
-  animation: pt-gas-a 48s ease-in-out infinite alternate;
+  animation: pt-gas-a 48s ease-in-out 2 alternate;
 }
 
 @keyframes pt-gas-a {
@@ -58,7 +65,7 @@ body::after {
     radial-gradient(46vmax 44vmax at 42% 12%,
       rgba(var(--pt-aurora-3), calc(var(--pt-aurora-alpha) * 0.6)) 0%, transparent 64%);
   background-repeat: no-repeat;
-  animation: pt-gas-b 61s ease-in-out infinite alternate;
+  animation: pt-gas-b 61s ease-in-out 2 alternate;
 }
 
 @keyframes pt-gas-b {
