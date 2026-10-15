@@ -101,6 +101,30 @@
   --pt-illus-ink:        #1A1A1A;
 
   /*
+   * I neutri delle illustrazioni. Le figure del sito e del libro li usano da
+   * sempre, ma vivevano solo dentro gli SVG: non sono i neutri
+   * dell'interfaccia (#5A524A, #E2DCC9...) e non vanno confusi con quelli.
+   * La loro resa scura, insieme a quella dei cinque colori qui sopra, e' in
+   * figure/palette.json, che e' la fonte per chi ricolora una figura.
+   */
+  --pt-illus-ink-medio:      #5E5852;
+  --pt-illus-ink-tenue:      #8B847C;
+  --pt-illus-filetto:        #E8E2D5;
+  --pt-illus-filetto-forte:  #C9C2B4;
+  --pt-illus-ocra-cupo:      #9A7B2E;   /* l'ocra che fa da testo sul crema */
+
+  /*
+   * Testo sopra una campitura d'accento (bottoni, pillole, intestazioni di
+   * tabella). Non e' un bianco fisso: sullo scuro gli accenti si schiariscono
+   * e un testo chiaro sopra scende a 2,7-2,9:1. Il fondo della pagina invece
+   * regge in tutti e due i temi (5,1 e 6,7:1 sulla terracotta).
+   * L'ocra e' chiara in tutti e due i temi, quindi vuole sempre l'inchiostro.
+   */
+  --pt-on-accent:        var(--pt-bg);
+  --pt-on-accent-2:      var(--pt-bg);
+  --pt-on-accent-3:      #1A1714;
+
+  /*
    * Sistema (errori, success, warning). Sono colori di INCHIOSTRO: si
    * ribaltano con il tema, come --pt-accent. Il verde e l'ocra non lo
    * facevano — dichiarati una volta sola qui, nel blocco chiaro — e
@@ -117,6 +141,7 @@
    */
   --pt-success:       #2D6A4F;   /* inchiostro — 5,7:1 sul chiaro */
   --pt-success-solid: #2D6A4F;   /* campitura, ci va sopra il bianco: 6,4:1 */
+  --pt-on-success-solid: #FFFFFF;
   --pt-warning:       #7A5E1F;   /* ocra profonda — 5,8:1 sul chiaro */
   --pt-error:         var(--pt-terra);    /* terracotta = errore; segue light/dark.
                                              oggi coincide con l'accento */
@@ -143,8 +168,13 @@
   --pt-font-mono:    "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo,
                      Consolas, "Liberation Mono", monospace;
 
-  /* Scala 1.250 (major third) — base 1rem */
-  --pt-text-xs:   0.64rem;     /* 10.24 */
+  /*
+   * Scala 1.250 (major third) — base 1rem. Con una eccezione in fondo: il
+   * gradino xs della scala sarebbe 0.64rem, cioe' 10,24px, e su pillole ed
+   * eyebrow in maiuscoletto non si legge. Il sito lo alzava a mano a 12px in
+   * sedici regole; il pavimento ora e' qui.
+   */
+  --pt-text-xs:   0.75rem;     /* 12 — pavimento, non 0.64rem della scala */
   --pt-text-sm:   0.8rem;      /* 12.8  */
   --pt-text-base: 1rem;        /* 16    */
   --pt-text-md:   1.25rem;     /* 20    */
@@ -167,6 +197,19 @@
 
   /* Body size fluido (clamp tra 16 e 18px) */
   --pt-text-body-fluid: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+
+  /*
+   * Tavolozza del codice (syntax highlight). Nessun colore suo: prende quelli
+   * dell'interfaccia, che si ribaltano gia' col tema, e una copia fissa
+   * invecchierebbe per conto suo. Il numero e' l'ocra da testo
+   * (--pt-accent-3-ink): l'ocra piena sul chiaro sta a 2,1:1.
+   */
+  --pt-code-fg:  var(--pt-fg);
+  --pt-code-kw:  var(--pt-accent);
+  --pt-code-str: var(--pt-accent-2);
+  --pt-code-com: var(--pt-fg-subtle);
+  --pt-code-dec: var(--pt-accent-2-hover);   /* 9,8:1 sul chiaro, 8,2:1 sullo scuro */
+  --pt-code-num: var(--pt-accent-3-ink);
 
   /* Line-height */
   --pt-leading-tight:   1.1;    /* display */
@@ -367,6 +410,12 @@
     --pt-border:        #221F1A;
     --pt-border-strong: #34302A;
     --pt-aurora-alpha:  0.18;
+    /* Le ombre stavano solo nel blocco sopra: chi chiedeva lo scuro dal
+       sistema, senza JavaScript, aveva le ombre chiare su fondo nero. */
+    --pt-shadow-xs: 0 1px 1px rgba(0, 0, 0, 0.4);
+    --pt-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --pt-shadow-md: 0 4px 8px rgba(0, 0, 0, 0.5);
+    --pt-shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.6);
   }
 }
 
