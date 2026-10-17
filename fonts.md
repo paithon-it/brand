@@ -26,6 +26,16 @@ e ragioni in [`stampa/fonts/NOTICE.md`](stampa/fonts/NOTICE.md).
 | Body | **Inter** | 400, 500, 600 | Il grassetto è il 600, a schermo e in stampa: niente 700 né 800 |
 | Mono / codice | **JetBrains Mono** | 400, 500, 600 | |
 
+**Fraunces ha due pesi di titolo, secondo dove sta.**
+
+- **Lettura**: nella pagina lunga, cioè un capitolo del libro o un articolo
+  lungo, h1 e h2 sono in **400**, il tondo leggero
+  (`--pt-prose-heading-weight`), e h3–h5 in 600. Alla misura grande il 400
+  regge senza gridare, e la gerarchia fra i titoli la fa la scala
+  `--pt-prose-*` di `tokens.css`, non il peso.
+- **Display**: landing, copertine e headline del sito hanno l'h1 in **800** e
+  i titoli sotto in 600, sulla scala `--pt-display-*`.
+
 Sul web Inter e JetBrains Mono non hanno il corsivo e il browser lo
 sintetizza; il PDF ha i corsivi veri (`stampa/fonts/`).
 
