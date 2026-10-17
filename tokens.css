@@ -199,6 +199,27 @@
   --pt-text-body-fluid: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
 
   /*
+   * Tipografia di lettura: la pagina lunga, dove si legge di fila (il libro,
+   * un articolo). Corpo da 17 a 18px, che e' il tetto del corpo fluido qui
+   * sopra; titoli in Fraunces tondo, con un rapporto fra titolo e corpo che
+   * sale per gradini netti (h1 circa 2,8 volte il corpo, h2 1,8, h3 1,25).
+   * Il h2 porta un filetto sottile sotto, non una riga piena: separa senza
+   * fare da cornice. La scala deve scendere a ogni gradino, a ogni
+   * larghezza di schermo: lo controlla `prove/`.
+   */
+  --pt-prose-body:     clamp(1.0625rem, 1rem + 0.2vw, 1.125rem);  /* 17 -> 18 */
+  --pt-prose-leading:  1.62;    /* su telefono */
+  --pt-prose-leading-wide: 1.72; /* da 48em */
+  --pt-prose-gap:      1.15em;  /* fra due capoversi */
+  --pt-prose-h1:       clamp(2.1rem, 1.5rem + 2.6vw, 3.2rem);     /* 33,6 -> 51,2 */
+  --pt-prose-h2:       clamp(1.5rem, 1.25rem + 1.1vw, 2rem);      /* 24 -> 32 */
+  --pt-prose-h3:       clamp(1.2rem, 1.1rem + 0.5vw, 1.4rem);     /* 19,2 -> 22,4 */
+  --pt-prose-h4:       clamp(1.15rem, 1.1rem + 0.3vw, 1.3rem);    /* 18,4 -> 20,8 */
+  --pt-prose-h5:       clamp(1.1rem, 1.08rem + 0.1vw, 1.15rem);   /* 17,6 -> 18,4 */
+  --pt-prose-heading-weight: 400;   /* h1 e h2: il tondo leggero */
+  --pt-prose-rule:     1px;     /* il filetto sotto il h2 */
+
+  /*
    * Tavolozza del codice (syntax highlight). Nessun colore suo: prende quelli
    * dell'interfaccia, che si ribaltano gia' col tema, e una copia fissa
    * invecchierebbe per conto suo. Il numero e' l'ocra da testo

@@ -54,6 +54,11 @@ Oltre a colori/tipo/spacing storici, `tokens.css` include ora:
 
 - **Display fluidi** `--pt-display-{sm,md,lg,xl}` (`clamp`): headline che scalano
   senza salti di breakpoint.
+- **Tipografia di lettura** `--pt-prose-*`: la scala della pagina lunga (corpo
+  17→18px, interlinea, distanza fra capoversi, h1-h5, peso dei titoli
+  maggiori, filetto del h2). La usa il libro; un articolo lungo del sito la
+  può prendere identica. Le prove controllano che scenda a ogni gradino, a
+  ogni larghezza.
 - **Superfici tint** `--pt-tint-accent{,-2,-3}`: accent a bassa opacità per
   hover/badge/stati attivi (via `color-mix`, seguono light/dark).
 - **Focus ring** `--pt-ring` / `--pt-ring-offset`: anello unico token-driven.
