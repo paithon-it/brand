@@ -140,6 +140,30 @@ class Tipografia(unittest.TestCase):
         self.assertTrue(valore.endswith("rem"), valore)
         self.assertGreaterEqual(float(valore[:-3]), 0.75)
 
+    @staticmethod
+    def _px(valore: str, larghezza: float) -> float:
+        """Un `clamp(a rem, b rem + c vw, d rem)` valutato a una larghezza."""
+        m = re.fullmatch(r"clamp\(([\d.]+)rem, ([\d.]+)rem \+ ([\d.]+)vw, "
+                         r"([\d.]+)rem\)", valore)
+        assert m, valore
+        lo, base, vw, hi = (float(x) for x in m.groups())
+        return min(max(lo * 16, base * 16 + vw * larghezza / 100), hi * 16)
+
+    def test_la_scala_di_lettura_scende_a_ogni_gradino(self):
+        livelli = ["--pt-prose-h1", "--pt-prose-h2", "--pt-prose-h3",
+                   "--pt-prose-h4", "--pt-prose-h5", "--pt-prose-body"]
+        for larghezza in (320, 390, 768, 1024, 1280, 1440, 1920):
+            misure = [self._px(CHIARO[k], larghezza) for k in livelli]
+            for alto, basso, nome in zip(misure, misure[1:], livelli[1:]):
+                self.assertGreater(alto, basso, f"{nome} a {larghezza}px")
+
+    def test_il_corpo_di_lettura_resta_nel_corpo_fluido(self):
+        for larghezza in (320, 768, 1440, 1920):
+            lettura = self._px(CHIARO["--pt-prose-body"], larghezza)
+            self.assertGreaterEqual(lettura, 16, larghezza)
+            self.assertLessEqual(
+                lettura, self._px(CHIARO["--pt-text-body-fluid"], 1920))
+
 
 # --------------------------------------------------------------------------
 class PaletteDelleFigure(unittest.TestCase):
