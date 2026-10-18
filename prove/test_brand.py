@@ -164,6 +164,17 @@ class Tipografia(unittest.TestCase):
             self.assertLessEqual(
                 lettura, self._px(CHIARO["--pt-text-body-fluid"], 1920))
 
+    def test_il_titolo_di_sezione_in_ocra_si_legge_ovunque(self):
+        # L'ocra piena sul crema sta a 2,1:1: il titolo d'oro e' l'ocra da
+        # testo, che si ribalta col tema. Si chiede il 4,5 del testo normale
+        # anche se e' un titolo, perche' su telefono l'h2 scende a 24px.
+        for tema, valori in TEMI.items():
+            for fondo in ("--pt-bg", "--pt-bg-elev"):
+                with self.subTest(tema=tema, fondo=fondo):
+                    k = contrasto(risolvi(valori, "--pt-prose-h2-color"),
+                                  risolvi(valori, fondo))
+                    self.assertGreaterEqual(k, 4.5, f"h2 su {fondo}: {k:.2f}:1")
+
 
 # --------------------------------------------------------------------------
 class PaletteDelleFigure(unittest.TestCase):
