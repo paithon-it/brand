@@ -223,6 +223,22 @@
      Solo l'h2: il resto della scala resta inchiostro, e l'oro segna dove
      comincia una sezione invece di colorare ogni titolo. */
   --pt-prose-h2-color: var(--pt-accent-3-ink);
+  /*
+   * L'enfasi nel testo. Il grassetto e' il 600: Inter si ferma li', e un
+   * 700 lascerebbe al browser la scelta del peso. Il corsivo non ha token
+   * (sul web Inter lo sintetizza, vedi fonts.md).
+   * La sottolineatura e' la matita: un tratto teal staccato dalle lettere,
+   * sotto la frase che regge una sezione, una al massimo per sezione. Non
+   * e' il terracotta dei link ne' l'ocra dei passaggi salvati dai lettori,
+   * e si ribalta col tema da se'. Il consumatore la mette su `u`:
+   *   text-decoration: underline var(--pt-prose-underline-thickness)
+   *                    var(--pt-prose-underline-color);
+   *   text-underline-offset: var(--pt-prose-underline-offset);
+   */
+  --pt-prose-strong-weight:       var(--pt-weight-semibold);
+  --pt-prose-underline-color:     var(--pt-accent-2);
+  --pt-prose-underline-thickness: 2px;
+  --pt-prose-underline-offset:    0.3em;   /* 5,4px sul corpo da 18 */
 
   /*
    * Tavolozza del codice (syntax highlight). Nessun colore suo: prende quelli
