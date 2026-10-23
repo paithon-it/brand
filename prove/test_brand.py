@@ -176,6 +176,41 @@ class Tipografia(unittest.TestCase):
                     self.assertGreaterEqual(k, 4.5, f"h2 su {fondo}: {k:.2f}:1")
 
 
+class Enfasi(unittest.TestCase):
+    """Grassetto e sottolineatura a matita nel testo di lettura."""
+
+    def test_il_grassetto_e_un_peso_che_inter_ha(self):
+        # Il libro chiedeva il 700: Inter si ferma al 600, e il browser
+        # sceglieva il peso da se'. Il grassetto deve stare fra i pesi che
+        # fonts.css serve davvero, e sopra il tondo.
+        faccia = re.search(r"font-family:\s*['\"]Inter['\"];[^}]*?"
+                           r"font-weight:\s*(\d+) (\d+);",
+                           _senza_commenti((BRAND / "fonts.css").read_text()))
+        minimo, massimo = (int(p) for p in faccia.groups())
+        peso = int(risolvi(CHIARO, "--pt-prose-strong-weight"))
+        self.assertGreater(peso, minimo)
+        self.assertLessEqual(peso, massimo)
+
+    def test_la_matita_si_vede_su_ogni_fondo(self):
+        # Un tratto, non un testo: basta il 3:1 dei segni grafici.
+        for tema, valori in TEMI.items():
+            for fondo in ("--pt-bg", "--pt-bg-elev"):
+                with self.subTest(tema=tema, fondo=fondo):
+                    k = contrasto(risolvi(valori, "--pt-prose-underline-color"),
+                                  risolvi(valori, fondo))
+                    self.assertGreaterEqual(k, 3, f"matita su {fondo}: {k:.2f}:1")
+
+    def test_la_matita_non_e_un_link_ne_un_passaggio_salvato(self):
+        # Il link e' terracotta, il passaggio salvato da un lettore e' ocra:
+        # una frase sottolineata con uno dei due colori sembrerebbe cliccabile
+        # o salvata.
+        for tema, valori in TEMI.items():
+            matita = risolvi(valori, "--pt-prose-underline-color")
+            for altro in ("--pt-accent", "--pt-accent-3", "--pt-accent-3-ink"):
+                with self.subTest(tema=tema, altro=altro):
+                    self.assertNotEqual(matita, risolvi(valori, altro))
+
+
 # --------------------------------------------------------------------------
 class PaletteDelleFigure(unittest.TestCase):
     def setUp(self):
