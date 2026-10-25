@@ -21,6 +21,7 @@ if [[ -n "$ctx" && -d "$ctx" ]]; then
   [[ -s "$ctx/client.patch" && ! -s "$ctx/rules.patch" ]] && echo "areas-ok" >>"$FAKE_CALLS"
   grep -qx "client: lib" "$ctx/areas.txt" && echo "areas-listed" >>"$FAKE_CALLS"
 fi
+echo "cwd-head:$(git rev-parse HEAD 2>/dev/null)" >>"$FAKE_CALLS"
 printf '%b\n' "${FAKE_OUTPUT:-}"
 exit "${FAKE_EXIT:-0}"
 EOF
@@ -51,6 +52,13 @@ code2="$(git rev-parse HEAD)"
 echo d >docs/x.md && echo e >README.md && echo f >test/a_test.dart
 git add . && git commit -qm docs-and-tests
 docs_only="$(git rev-parse HEAD)"
+
+# A branch that is not the one checked out: the reviewer must read ITS tree.
+git checkout -q -b other "$base_sha"
+mkdir -p .claude/skills/security-review-range && echo skill >.claude/skills/security-review-range/SKILL.md
+echo z >lib/a.dart && git add . && git commit -qm other
+other="$(git rev-parse HEAD)"
+git checkout -q feature
 
 pass=0
 fail=0
@@ -115,6 +123,20 @@ check "branch deletion: no review" '[[ $status -eq 0 ]] && [[ ! -e $FAKE_CALLS ]
 
 run_hook "refs/tags/v1 $code2 refs/tags/v1 $zero"
 check "tag: no review" '[[ $status -eq 0 ]] && [[ ! -e $FAKE_CALLS ]]'
+
+# The local ref says nothing about where it lands: `git push origin v1:main`
+# updates main. What decides is the remote ref.
+run_hook "refs/tags/v1 $code2 refs/heads/main $zero" FAKE_OUTPUT='SECURITY-REVIEW: PASS'
+check "tag pushed onto a branch: reviewed" '[[ $status -eq 0 ]] && [[ -e $FAKE_CALLS ]]'
+
+# The reviewer's tools are a closed list, not a deny list plus dontAsk.
+run_hook "refs/heads/feature $code2 refs/heads/feature $zero" FAKE_OUTPUT='SECURITY-REVIEW: PASS'
+check "reviewer tools: closed list" 'grep -qx -- "--tools" "$FAKE_CALLS" && grep -qx "Read,Grep,Glob,Agent,Skill" "$FAKE_CALLS"'
+check "pushing the checked-out branch: review in the repo itself" 'grep -qx "cwd-head:$(git rev-parse HEAD)" "$FAKE_CALLS"'
+
+run_hook "refs/heads/other $other refs/heads/other $zero" FAKE_OUTPUT='SECURITY-REVIEW: PASS'
+check "pushing another branch: review in its own tree" '[[ $status -eq 0 ]] && grep -qx "cwd-head:$other" "$FAKE_CALLS"'
+check "the temporary tree is removed" '[[ $(git worktree list | wc -l) -eq 1 ]]'
 
 run_hook "refs/heads/feature $code2 refs/heads/feature $zero" SKIP_SECURITY_REVIEW=1
 check "explicit bypass" '[[ $status -eq 0 ]] && [[ ! -e $FAKE_CALLS ]]'

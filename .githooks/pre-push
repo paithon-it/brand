@@ -56,10 +56,12 @@ if [[ -f "$areas_file" ]]; then
 fi
 
 ranges=()
-while read -r local_ref local_sha _remote_ref remote_sha; do
+while read -r local_ref local_sha remote_ref remote_sha; do
   [[ -z "${local_ref:-}" ]] && continue
   [[ "$local_sha" == "$zero" ]] && continue
-  [[ "$local_ref" == refs/tags/* ]] && continue
+  # Where the push lands decides, not what it comes from: `git push origin
+  # v1:main` has a tag as local ref and updates main.
+  [[ "$remote_ref" == refs/tags/* ]] && continue
   if [[ "$remote_sha" != "$zero" ]] && git cat-file -e "$remote_sha^{commit}" 2>/dev/null; then
     base="$remote_sha"
   elif [[ -n "$default_ref" ]]; then
@@ -101,6 +103,25 @@ prepare_context() {
   done
 }
 
+# The reviewer reads the rest of the code from a directory. Pushing the
+# checked-out branch, that is the repo itself; pushing another one, it is a
+# temporary tree of the pushed commit, or the context would come from code
+# that is not being pushed. A pushed commit without the repo skill (an old
+# branch) falls back to the repo, and says so.
+review_tree() {
+  local head="$1" wt
+  if [[ "$head" == "$(git rev-parse HEAD)" ]] \
+    || ! git cat-file -e "$head:.claude/skills/security-review-range/SKILL.md" 2>/dev/null; then
+    [[ "$head" != "$(git rev-parse HEAD)" ]] \
+      && echo "pre-push: ${head:0:10} non ha la skill di review: la review legge il codice dal ramo attivo." >&2
+    echo "$repo_root"
+    return
+  fi
+  wt="$(mktemp -d)/albero"
+  git worktree add -q --detach "$wt" "$head" >&2
+  echo "$wt"
+}
+
 mkdir -p "$report_dir"
 failed=0
 for range in "${ranges[@]}"; do
@@ -110,17 +131,26 @@ for range in "${ranges[@]}"; do
   echo "pre-push: security review di ${base:0:10}..${head:0:10} (qualche minuto)…" >&2
   ctx="$(mktemp -d)"
   prepare_context "$range" "$ctx"
+  tree="$(review_tree "$head")"
   reviewed=0
-  (cd "$repo_root" && env -u CLAUDECODE timeout "${SECURITY_REVIEW_TIMEOUT:-1800}" \
+  # --tools is the closed list of what exists for the reviewer; the allow and
+  # deny lists stay as a second fence.
+  (cd "$tree" && env -u CLAUDECODE timeout "${SECURITY_REVIEW_TIMEOUT:-1800}" \
       claude -p "/security-review-range $range --context $ctx" \
         --no-session-persistence \
         --strict-mcp-config \
         --permission-mode dontAsk \
         --add-dir "$ctx" \
+        --tools "Read,Grep,Glob,Agent,Skill" \
         --disallowedTools Bash Edit Write NotebookEdit \
         --allowedTools Read Grep Glob Agent Skill \
         </dev/null >"$report" 2>&1) || reviewed=$?
   rm -rf "$ctx"
+  if [[ "$tree" != "$repo_root" ]]; then
+    git worktree remove --force "$tree" >/dev/null 2>&1 || true
+    rm -rf "$(dirname "$tree")"
+    git worktree prune
+  fi
   if [[ $reviewed -ne 0 ]]; then
     echo "pre-push: la review di $range non è arrivata in fondo: push bloccato. Output: $report" >&2
     failed=1
