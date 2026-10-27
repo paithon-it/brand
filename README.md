@@ -56,9 +56,10 @@ Oltre a colori/tipo/spacing storici, `tokens.css` include ora:
   senza salti di breakpoint.
 - **Tipografia di lettura** `--pt-prose-*`: la scala della pagina lunga (corpo
   17→18px, interlinea, distanza fra capoversi, h1-h5, peso dei titoli
-  maggiori, filetto del h2, l'h2 in oro `--pt-prose-h2-color`). La usano il
+  maggiori, filetto del h2, l'h2 `--pt-prose-h2-color`, verde petrolio sul chiaro e oro sullo
+  scuro). La usano il
   libro e gli articoli lunghi del sito. Le prove controllano che scenda a
-  ogni gradino, a ogni larghezza, e che l'oro dell'h2 si legga nei due temi.
+  ogni gradino, a ogni larghezza, e che l'h2 si legga nei due temi.
 - **Enfasi nel testo** `--pt-prose-strong-weight` e
   `--pt-prose-underline-{color,thickness,offset}`: il grassetto in 600 (Inter
   non ha il 700) e la sottolineatura a matita, un tratto teal staccato dalle

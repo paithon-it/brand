@@ -218,11 +218,13 @@
   --pt-prose-h5:       clamp(1.1rem, 1.08rem + 0.1vw, 1.15rem);   /* 17,6 -> 18,4 */
   --pt-prose-heading-weight: 400;   /* h1 e h2: il tondo leggero */
   --pt-prose-rule:     1px;     /* il filetto sotto il h2 */
-  /* Il titolo di sezione e' d'oro, come negli articoli del sito: l'ocra da
-     testo, che si ribalta col tema (5,4:1 sul chiaro, 8,7:1 sullo scuro).
-     Solo l'h2: il resto della scala resta inchiostro, e l'oro segna dove
-     comincia una sezione invece di colorare ogni titolo. */
-  --pt-prose-h2-color: var(--pt-accent-3-ink);
+  /* Il titolo di sezione: verde petrolio sul chiaro, oro sullo scuro (lo
+     scuro lo ridichiara qui sotto). Sul crema l'ocra da testo (#7A5E1F) si
+     leggeva come un giallo spento, e l'autore l'ha cambiato il 2026-10-27;
+     sul nero l'oro regge, ed e' l'ocra del logo. Solo l'h2: il resto della
+     scala resta inchiostro, e il colore segna dove comincia una sezione
+     invece di colorare ogni titolo. */
+  --pt-prose-h2-color: var(--pt-accent-2);
   /*
    * L'enfasi nel testo. Il grassetto e' il 600: Inter si ferma li', e un
    * 700 lascerebbe al browser la scelta del peso. Il corsivo non ha token
@@ -403,6 +405,7 @@
   --pt-accent-3:       #C9A961;
   --pt-accent-3-ink:   #C9A961;
   --pt-flag-white:     #FCF9F2;
+  --pt-prose-h2-color: var(--pt-accent-3-ink);   /* l'oro, solo sullo scuro */
 
   /*
    * Sistema: l'inchiostro si schiarisce per il fondo scuro, la
@@ -447,6 +450,7 @@
     --pt-accent-3:       #C9A961;
     --pt-accent-3-ink:   #C9A961;
     --pt-flag-white:     #FCF9F2;
+    --pt-prose-h2-color: var(--pt-accent-3-ink);
     --pt-success:       #5FA37B;
     --pt-warning:       #C9A961;
     --pt-border:        #221F1A;
