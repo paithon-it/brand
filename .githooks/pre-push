@@ -33,8 +33,10 @@ fi
 #   <area>: <pathspec> <pathspec> ...     → <area>.patch for the reviewer
 #   exclude: <glob> <glob> ...            → not reviewed (docs, tests)
 # Parallel indexed arrays, not `declare -A`: macOS still ships bash 3.2.
-not_reviewed=(':(exclude,glob)**/*.md' ':(exclude,glob)docs/**'
-  ':(exclude,glob)**/test/**' ':(exclude,glob)**/tests/**' ':(exclude,glob)**/__tests__/**')
+# Not **/*.md: CLAUDE.md and .claude/ instruct agents and are reviewed.
+exclude_globs="README.md docs/** **/test/** **/tests/** **/__tests__/**"
+not_reviewed=()
+for g in $exclude_globs; do not_reviewed+=(":(exclude,glob)$g"); done
 area_names=()
 area_specs=()
 if [[ -f "$areas_file" ]]; then
@@ -45,6 +47,7 @@ if [[ -f "$areas_file" ]]; then
     specs="${line#*:}"
     if [[ "$name" == "exclude" ]]; then
       read -ra globs <<<"$specs"
+      exclude_globs="${globs[*]}"
       not_reviewed=()
       for g in "${globs[@]}"; do not_reviewed+=(":(exclude,glob)$g"); done
     elif [[ "$name" =~ ^[a-z0-9_-]+$ ]]; then
@@ -90,8 +93,53 @@ fi
 # The reviewer gets no shell: an allowlist like `Bash(git log:*)` also admits
 # `git log --output=<file>`, i.e. writing any file, and the code under review
 # is untrusted input. The hook prepares what it would have asked git.
+#
+# Nor does it start inside the code under review: Claude Code loads the
+# .claude/settings.json of its working directory, and the hooks declared there
+# run whatever --tools says (verified with claude 2.1.310, 2026-10-26). The
+# reviewer starts in the context dir built here; the pushed code is only data
+# in repo/ (no .claude/, no symlinks); the review skill comes from the active
+# branch, never from the pushed commit. Agent instructions in the pushed tree
+# (CLAUDE.md, CLAUDE.local.md, .claude/ at any depth, in any letter case: macOS
+# filesystems are case-insensitive) are removed from repo/:
+# Claude Code would attach them as memory when the reviewer reads nearby files.
+# Their changes stay visible in the patches.
+skill_path=".claude/skills/security-review-range/SKILL.md"
+
+# Pathspecs that exclude what the areas cover: what is left is «other», so a
+# path that no area lists (a CI workflow, a tool config) still gets a patch.
+not_in_areas=()
+for i in "${!area_specs[@]}"; do
+  read -ra specs <<<"${area_specs[$i]}"
+  for spec in "${specs[@]}"; do
+    case "$spec" in
+      ':!'* | ':^'* | ':('*exclude*')'*) ;;
+      ':('*) not_in_areas+=(":(exclude,${spec#:(}") ;;
+      *) not_in_areas+=(":(exclude)$spec") ;;
+    esac
+  done
+done
+
+# A file with a NUL byte is «binary» for git: its diff would be a single
+# «Binary files differ» line and the review would not see the code (browsers
+# still run JS with a NUL inside a comment). Fail closed: only extensions that
+# are really binary may be binary; anything else blocks the push.
+binary_ext='\.(png|jpe?g|gif|webp|avif|ico|bmp|tiff?|heic|ttf|otf|woff2?|eot|pdf|zip|gz|tgz|jar|aar|apk|aab|ipa|keystore|jks|p12|der|mp3|mp4|m4a|aac|wav|ogg|webm|mov|so|dylib|class|bin)$'
+unexpected_binaries() {
+  local rec path lower
+  git diff --numstat -z --no-renames "$1" -- . "${not_reviewed[@]}" |
+    while IFS= read -r -d '' rec; do
+      [[ "$rec" == $'-\t-\t'* ]] || continue
+      path="${rec#$'-\t-\t'}"
+      lower="$(printf '%s' "$path" | tr '[:upper:]' '[:lower:]')"
+      [[ "$lower" =~ $binary_ext ]] || printf '%s\n' "$path"
+    done
+  return 0
+}
+
 prepare_context() {
-  local range="$1" dir="$2" i specs
+  local range="$1" dir="$2" head i specs
+  head="${range##*..}"
   git log --oneline "$range" >"$dir/log.txt"
   git diff --stat "$range" >"$dir/stat.txt"
   git diff "$range" >"$dir/diff.patch"
@@ -101,56 +149,67 @@ prepare_context() {
     git diff "$range" -- "${specs[@]}" >"$dir/${area_names[$i]}.patch"
     echo "${area_names[$i]}: ${area_specs[$i]}" >>"$dir/areas.txt"
   done
+  git diff "$range" -- . "${not_reviewed[@]}" "${not_in_areas[@]}" >"$dir/other.patch"
+  if [[ -s "$dir/other.patch" ]]; then
+    echo "other: file che nessuna area elenca (CI, configurazioni di strumenti, …)" >>"$dir/areas.txt"
+  else
+    rm -f "$dir/other.patch"
+  fi
+  # The exclusions of the active branch: the copy in repo/ is the pushed one.
+  echo "exclude: $exclude_globs" >>"$dir/areas.txt"
+  # read-tree + checkout-index, not `git archive`: archive obeys the pushed
+  # tree's export-ignore and could hide files from the reviewer.
+  GIT_INDEX_FILE="$dir/.index" git read-tree "$head"
+  GIT_INDEX_FILE="$dir/.index" git checkout-index -a -f --prefix="$dir/repo/"
+  rm -f "$dir/.index"
+  find "$dir/repo" \( -iname .claude -o -iname claude.md -o -iname claude.local.md \) -prune -exec rm -rf {} +
+  find "$dir/repo" -type l -delete
+  mkdir -p "$dir/$(dirname "$skill_path")"
+  git show "HEAD:$skill_path" >"$dir/$skill_path"
 }
 
-# The reviewer reads the rest of the code from a directory. Pushing the
-# checked-out branch, that is the repo itself; pushing another one, it is a
-# temporary tree of the pushed commit, or the context would come from code
-# that is not being pushed. A pushed commit without the repo skill (an old
-# branch) falls back to the repo, and says so.
-review_tree() {
-  local head="$1" wt
-  if [[ "$head" == "$(git rev-parse HEAD)" ]] \
-    || ! git cat-file -e "$head:.claude/skills/security-review-range/SKILL.md" 2>/dev/null; then
-    [[ "$head" != "$(git rev-parse HEAD)" ]] \
-      && echo "pre-push: ${head:0:10} non ha la skill di review: la review legge il codice dal ramo attivo." >&2
-    echo "$repo_root"
-    return
-  fi
-  wt="$(mktemp -d)/albero"
-  git worktree add -q --detach "$wt" "$head" >&2
-  echo "$wt"
-}
+if ! git cat-file -e "HEAD:$skill_path" 2>/dev/null; then
+  echo "pre-push: il ramo attivo non ha $skill_path: la review non può girare, push bloccato." >&2
+  echo "          Fai checkout di un ramo che la contiene (per esempio main) e ripeti il push." >&2
+  exit 1
+fi
 
 mkdir -p "$report_dir"
+ctx=""
+cleanup() { if [[ -n "$ctx" && -d "$ctx" ]]; then rm -rf "$ctx"; fi; }
+trap cleanup EXIT
 failed=0
 for range in "${ranges[@]}"; do
   base="${range%%..*}"
   head="${range##*..}"
   report="$report_dir/$(date -u +%Y%m%dT%H%M%SZ)_${base:0:10}_${head:0:10}.md"
+  suspicious="$(unexpected_binaries "$range")"
+  if [[ -n "$suspicious" ]]; then
+    echo "pre-push: file che git tratta come binari ma non sono immagini, font, video o archivi" >&2
+    echo "          (un byte NUL?): il loro diff sarebbe invisibile alla review, push bloccato:" >&2
+    printf '          %s\n' "$suspicious" >&2
+    failed=1
+    continue
+  fi
   echo "pre-push: security review di ${base:0:10}..${head:0:10} (qualche minuto)…" >&2
   ctx="$(mktemp -d)"
   prepare_context "$range" "$ctx"
-  tree="$(review_tree "$head")"
   reviewed=0
   # --tools is the closed list of what exists for the reviewer; the allow and
-  # deny lists stay as a second fence.
-  (cd "$tree" && env -u CLAUDECODE timeout "${SECURITY_REVIEW_TIMEOUT:-1800}" \
+  # deny lists stay as a second fence. Only the context dir's own project
+  # settings (the skill copied above), and no hooks from any source.
+  (cd "$ctx" && env -u CLAUDECODE timeout "${SECURITY_REVIEW_TIMEOUT:-1800}" \
       claude -p "/security-review-range $range --context $ctx" \
         --no-session-persistence \
         --strict-mcp-config \
+        --setting-sources project \
+        --settings '{"disableAllHooks":true}' \
         --permission-mode dontAsk \
-        --add-dir "$ctx" \
         --tools "Read,Grep,Glob,Agent,Skill" \
         --disallowedTools Bash Edit Write NotebookEdit \
         --allowedTools Read Grep Glob Agent Skill \
         </dev/null >"$report" 2>&1) || reviewed=$?
   rm -rf "$ctx"
-  if [[ "$tree" != "$repo_root" ]]; then
-    git worktree remove --force "$tree" >/dev/null 2>&1 || true
-    rm -rf "$(dirname "$tree")"
-    git worktree prune
-  fi
   if [[ $reviewed -ne 0 ]]; then
     echo "pre-push: la review di $range non è arrivata in fondo: push bloccato. Output: $report" >&2
     failed=1
