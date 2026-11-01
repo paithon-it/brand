@@ -14,6 +14,7 @@ mkdir -p "$fakebin"
 cat >"$fakebin/claude" <<'EOF'
 #!/usr/bin/env bash
 printf '%s\n' "$@" >"$FAKE_CALLS"
+echo "bg-ceiling:${CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS-unset}" >>"$FAKE_CALLS"
 ctx="$(printf '%s\n' "$@" | sed -n 's|^/security-review-range .* --context \(.*\)$|\1|p')"
 if [[ -n "$ctx" && -d "$ctx" ]]; then
   echo "ctxdir:$ctx" >>"$FAKE_CALLS"
@@ -107,7 +108,7 @@ run_hook() {
   shift
   rm -f "$FAKE_CALLS"
   set +e
-  env PATH="$fakebin:/usr/bin:/bin" "$@" bash "$hook" origin https://example.invalid \
+  env -u CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS PATH="$fakebin:/usr/bin:/bin" "$@" bash "$hook" origin https://example.invalid \
     <<<"$line" >"$work/out" 2>&1
   status=$?
   set -e
@@ -130,6 +131,9 @@ check "review runs read-only" 'grep -qx "dontAsk" "$FAKE_CALLS" && grep -qx "Edi
 # Bash(git log:*) admits `--output=<file>` (verified 2026-09-27): no shell at
 # all for the reviewer, the hook prepares what it would have asked git.
 check "reviewer has no shell" '! grep -q "^Bash(" "$FAKE_CALLS" && grep -qx "Bash" "$FAKE_CALLS"'
+# claude -p ferma i sotto-agenti ancora in corso 10 minuti dopo l'ultimo turno, e il verdetto
+# non arriva (visto il 2026-11-01 su una review lunga): li si aspetta, il tetto resta il timeout.
+check "subagents not stopped after 10 minutes" 'grep -qx "bg-ceiling:0" "$FAKE_CALLS"'
 check "context prepared: log, stat, diff, one patch per area" 'grep -q "^ctx: .*diff.patch.*log.txt.*stat.txt" "$FAKE_CALLS" && grep -qx "areas-ok" "$FAKE_CALLS"'
 check "areas come from .githooks/security-review-areas" 'grep -qx "areas-listed" "$FAKE_CALLS"'
 # The reviewer starts in the context dir the hook built, never inside code
