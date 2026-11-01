@@ -86,6 +86,11 @@ one patch per area from the same file, so keep them in sync):
 Plus `other`, when the hook writes it: whatever no area lists (a CI workflow,
 `.mcp.json`, `.vscode/`, `.gitattributes`, a new top-level script).
 
+Exclusions never apply to agent instructions: a change to `CLAUDE.md`,
+`CLAUDE.local.md` or anything under `.claude/`, at any depth and in any letter
+case, is always reviewed, even under an excluded path such as `docs/` or
+`tests/` (the hook enforces it; an exclusion that would hide them is a finding).
+
 ## 1. Analyses — one sub-agent per touched area, in parallel
 
 `all` → every area. Every sub-agent prompt contains: the range (or "whole

@@ -37,6 +37,11 @@ fi
 exclude_globs="README.md docs/** **/test/** **/tests/** **/__tests__/**"
 not_reviewed=()
 for g in $exclude_globs; do not_reviewed+=(":(exclude,glob)$g"); done
+# Agent instructions are never «only docs or tests», whatever the exclusions
+# say: `**/tests/**` also covers .claude/skills/tests/SKILL.md, `docs/**` a
+# docs/CLAUDE.md. Same set that prepare_context removes from repo/: CLAUDE.md,
+# CLAUDE.local.md, .claude/ at any depth, in any letter case.
+agent_instructions=(':(icase,glob)**/.claude/**' ':(icase,glob)**/claude.md' ':(icase,glob)**/claude.local.md')
 area_names=()
 area_specs=()
 if [[ -f "$areas_file" ]]; then
@@ -75,7 +80,8 @@ while read -r local_ref local_sha remote_ref remote_sha; do
     exit 1
   fi
   [[ "$base" == "$local_sha" ]] && continue
-  if git diff --quiet "$base" "$local_sha" -- . "${not_reviewed[@]}"; then
+  if git diff --quiet "$base" "$local_sha" -- . "${not_reviewed[@]}" &&
+    git diff --quiet "$base" "$local_sha" -- "${agent_instructions[@]}"; then
     echo "pre-push: $local_ref cambia solo documentazione o test, niente review." >&2
     continue
   fi
@@ -127,7 +133,8 @@ done
 binary_ext='\.(png|jpe?g|gif|webp|avif|ico|bmp|tiff?|heic|ttf|otf|woff2?|eot|pdf|zip|gz|tgz|jar|aar|apk|aab|ipa|keystore|jks|p12|der|mp3|mp4|m4a|aac|wav|ogg|webm|mov|so|dylib|class|bin)$'
 unexpected_binaries() {
   local rec path lower
-  git diff --numstat -z --no-renames "$1" -- . "${not_reviewed[@]}" |
+  { git diff --numstat -z --no-renames "$1" -- . "${not_reviewed[@]}"
+    git diff --numstat -z --no-renames "$1" -- "${agent_instructions[@]}"; } |
     while IFS= read -r -d '' rec; do
       [[ "$rec" == $'-\t-\t'* ]] || continue
       path="${rec#$'-\t-\t'}"
@@ -183,7 +190,7 @@ for range in "${ranges[@]}"; do
   base="${range%%..*}"
   head="${range##*..}"
   report="$report_dir/$(date -u +%Y%m%dT%H%M%SZ)_${base:0:10}_${head:0:10}.md"
-  suspicious="$(unexpected_binaries "$range")"
+  suspicious="$(unexpected_binaries "$range" | sort -u)"
   if [[ -n "$suspicious" ]]; then
     echo "pre-push: file che git tratta come binari ma non sono immagini, font, video o archivi" >&2
     echo "          (un byte NUL?): il loro diff sarebbe invisibile alla review, push bloccato:" >&2
