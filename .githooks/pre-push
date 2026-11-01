@@ -198,7 +198,9 @@ for range in "${ranges[@]}"; do
   # --tools is the closed list of what exists for the reviewer; the allow and
   # deny lists stay as a second fence. Only the context dir's own project
   # settings (the skill copied above), and no hooks from any source.
-  (cd "$ctx" && env -u CLAUDECODE timeout "${SECURITY_REVIEW_TIMEOUT:-1800}" \
+  # claude -p stops subagents still running 10 minutes after its last turn,
+  # and the verdict never arrives: wait for them (=0), the timeout is the cap.
+  (cd "$ctx" && env -u CLAUDECODE CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS=0 timeout "${SECURITY_REVIEW_TIMEOUT:-1800}" \
       claude -p "/security-review-range $range --context $ctx" \
         --no-session-persistence \
         --strict-mcp-config \
